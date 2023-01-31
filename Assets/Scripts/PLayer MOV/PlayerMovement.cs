@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed;
-    public Rigidbody2D rb;
+    [SerializeField] private float moveSpeed;
+
+    public Rigidbody2D playerRb;
 
     private Vector2 moveDirection;
+    public bool DodgeRoll;
+    public float DodgeSpeed,DodgeTime;
+    
 
 
-    private void Start()
+    void Start()
     {
-        rb.velocity = Vector2.zero;
+        playerRb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //INPUTS
         ProcessInputs();
+    }
+
+    void ProcessInputs()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        moveDirection = new Vector2(moveX, moveY).normalized;
     }
 
 
@@ -28,15 +41,9 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
-    void ProcessInputs()
-    {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-        moveDirection= new Vector2(moveX, moveY);
-    }
 
     void Move()
     {
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        playerRb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
     }
 }
