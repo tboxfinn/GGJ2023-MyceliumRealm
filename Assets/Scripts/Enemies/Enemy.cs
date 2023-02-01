@@ -18,8 +18,18 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        navMeshAgent.SetDestination(target.position);
+        var distance = Vector3.Distance(target.position, transform.position);
 
+        if(distance<5f)
+        {
+            navMeshAgent.enabled=true;
+            navMeshAgent.SetDestination(target.position);
+        }
+        else{
+            navMeshAgent.enabled=false;
+        }
+
+        
     }
 
     private void Die()
