@@ -108,7 +108,7 @@ public class LevelGenerator : MonoBehaviour {
 			}
 			//check to exit loop
 			if ((float)NumberOfFloors() / (float)grid.Length > percentToFill){
-                GameObject player = Instantiate(PlayerObj, new Vector3(0, 0, 0), Quaternion.identity); //spawn player
+                //GameObject player = Instantiate(PlayerObj, new Vector3(0, 0, 0), Quaternion.identity); //spawn player
 				break;
 			}
 			iterations++;

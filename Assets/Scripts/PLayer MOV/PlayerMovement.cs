@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (dashCoolCounter <= 0 && dashCounter <= 0)
             {
-                activeMoveSpeed= dashSpeed;
+                activeMoveSpeed = dashSpeed;
                 dashCounter = dashLenght;
             }
         }
