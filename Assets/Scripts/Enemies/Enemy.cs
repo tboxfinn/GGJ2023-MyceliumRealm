@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     {
         var distance = Vector3.Distance(target.position, transform.position);
 
-        if(distance<5f)
+        if(distance<7f)
         {
             navMeshAgent.enabled=true;
             navMeshAgent.SetDestination(target.position);
