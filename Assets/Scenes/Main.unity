@@ -2704,7 +2704,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4d1d9a82645aa459d4ae09c7832c93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lol: {fileID: 1400617138}
+  menuPausa: {fileID: 1400617138}
+  botonPausa: {fileID: 2035407832}
+  texto: {fileID: 0}
 --- !u!1 &2134544492
 GameObject:
   m_ObjectHideFlags: 0
