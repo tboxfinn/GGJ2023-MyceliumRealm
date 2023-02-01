@@ -1,29 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform target;
-    public float speed = 3f;
-    private Rigidbody2D rb;
+    [SerializeField] private Transform target;
+    
+    private NavMeshAgent navMeshAgent;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
     }
 
     private void Update()
     {
-        // Get the target
-        // Rotate Towards Target
-    }
+        navMeshAgent.SetDestination(target.position);
 
-    private void FixedUpdate()
-    {
-        // Move Towards Target
     }
-        
-    
-
 }
