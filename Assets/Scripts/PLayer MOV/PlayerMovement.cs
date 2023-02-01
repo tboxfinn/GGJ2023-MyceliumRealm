@@ -65,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
         {
             //Intancia Loot, para elk enemigo
             //GetComponent<LootBag>().InstantiateLoot(transform.position);
-
             Shoot();
         }
 

@@ -21,4 +21,12 @@ public class Enemy : MonoBehaviour
         navMeshAgent.SetDestination(target.position);
 
     }
+
+    private void Die()
+    {
+        //Intancia Loot, para elk enemigo
+        GetComponent<LootBag>().InstantiateLoot(transform.position);
+        
+        Destroy(gameObject);
+    }
 }
