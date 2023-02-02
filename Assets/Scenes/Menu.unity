@@ -251,7 +251,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4d1d9a82645aa459d4ae09c7832c93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lol: {fileID: 1395350077}
+  menuPausa: {fileID: 0}
+  botonPausa: {fileID: 0}
+  texto: {fileID: 1395350077}
 --- !u!1 &222647691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1222,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 142641837}
         m_TargetAssemblyTypeName: change, Assembly-CSharp
-        m_MethodName: trolleo
+        m_MethodName: popUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
