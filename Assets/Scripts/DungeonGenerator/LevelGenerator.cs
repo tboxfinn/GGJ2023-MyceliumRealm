@@ -17,14 +17,16 @@ public class LevelGenerator : MonoBehaviour {
 	float chanceWalkerChangeDir = 0.5f, chanceWalkerSpawn = 0.05f;
 	float chanceWalkerDestoy = 0.05f;
 	int maxWalkers = 10;
+	int maxEnemys = 20;
 	float percentToFill = 0.3f; //
-	public GameObject emptyObj, wallObj, floorObj, PlayerObj, EnemyObj;
+	public GameObject emptyObj, wallObj, floorObj, playerObj, enemyObj;
 	void Start () {
 		Setup();
 		CreateFloors();
 		CreateWalls();
 		RemoveSingleWalls();
 		SpawnLevel();
+		SpawnEnemys();
 	}
 	void Setup(){
 		//find grid size
@@ -68,7 +70,6 @@ public class LevelGenerator : MonoBehaviour {
 				//only if its not the only one, and at a low chance
 				if (Random.value < chanceWalkerDestoy && walkers.Count > 1){
 					walkers.RemoveAt(i);
-					Instantiate(emptyObj, new Vector3(i, 0, 0), Quaternion.identity);
 					break; //only destroy one per iteration
                     
 				}
@@ -79,6 +80,7 @@ public class LevelGenerator : MonoBehaviour {
 					walker thisWalker = walkers[i];
 					thisWalker.dir = RandomDirection();
 					walkers[i] = thisWalker;
+					
 				}
 			}
 			//chance: spawn new walker
@@ -106,6 +108,7 @@ public class LevelGenerator : MonoBehaviour {
 				thisWalker.pos.x = Mathf.Clamp(thisWalker.pos.x, 1, roomWidth-2);
 				thisWalker.pos.y = Mathf.Clamp(thisWalker.pos.y, 1, roomHeight-2);
 				walkers[i] = thisWalker;
+				
 			}
 			//check to exit loop
 			if ((float)NumberOfFloors() / (float)grid.Length > percentToFill){
@@ -175,7 +178,7 @@ public class LevelGenerator : MonoBehaviour {
 			for (int y = 0; y < roomHeight; y++){
 				switch(grid[x,y]){
 					case gridSpace.empty:
-						Spawn(x,y,emptyObj);
+						//Spawn(x,y,emptyObj);
 						break;
 					case gridSpace.floor:
 						Spawn(x,y,floorObj);
@@ -186,6 +189,23 @@ public class LevelGenerator : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	void SpawnEnemys()
+	{
+		//function that sspawns less enemies that the limit inside the room
+		for (int i = 0; i < maxEnemys; i++)
+		{
+			//random position inside the room
+			int x = Random.Range(0, roomWidth);
+			int y = Random.Range(0, roomHeight);
+			//if the position is a floor, spawn an enemy
+			if (grid[x, y] == gridSpace.floor)
+			{
+				Spawn(x, y, enemyObj);
+			}
+		}
+		
 	}
 	Vector2 RandomDirection(){
 		//pick random int between 0 and 3
