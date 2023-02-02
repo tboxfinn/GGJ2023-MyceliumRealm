@@ -18,7 +18,7 @@ public class LevelGenerator : MonoBehaviour {
 	float chanceWalkerDestoy = 0.05f;
 	int maxWalkers = 10;
 	float percentToFill = 0.3f; //
-	public GameObject wallObj, floorObj, PlayerObj;
+	public GameObject emptyObj, wallObj, floorObj, PlayerObj, EnemyObj;
 	void Start () {
 		Setup();
 		CreateFloors();
@@ -68,6 +68,7 @@ public class LevelGenerator : MonoBehaviour {
 				//only if its not the only one, and at a low chance
 				if (Random.value < chanceWalkerDestoy && walkers.Count > 1){
 					walkers.RemoveAt(i);
+					Instantiate(emptyObj, new Vector3(i, 0, 0), Quaternion.identity);
 					break; //only destroy one per iteration
                     
 				}
@@ -174,6 +175,7 @@ public class LevelGenerator : MonoBehaviour {
 			for (int y = 0; y < roomHeight; y++){
 				switch(grid[x,y]){
 					case gridSpace.empty:
+						Spawn(x,y,emptyObj);
 						break;
 					case gridSpace.floor:
 						Spawn(x,y,floorObj);
