@@ -26,7 +26,11 @@ public class LevelGenerator : MonoBehaviour {
 		CreateWalls();
 		RemoveSingleWalls();
 		SpawnLevel();
+
+		//update and create nav mesh
+
 		SpawnEnemys();
+
 	}
 	void Setup(){
 		//find grid size
@@ -205,7 +209,6 @@ public class LevelGenerator : MonoBehaviour {
 				Spawn(x, y, enemyObj);
 			}
 		}
-		
 	}
 	Vector2 RandomDirection(){
 		//pick random int between 0 and 3
