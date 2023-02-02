@@ -6,7 +6,7 @@ public class LevelGenerator : MonoBehaviour {
 	enum gridSpace {empty, floor, wall};
 	gridSpace[,] grid;
 	int roomHeight, roomWidth;
-	public Vector2 roomSizeWorldUnits = new Vector2(30,30); // cambia el tamaño del mapa
+	public Vector2 roomSizeWorldUnits = new Vector2(50,50); // cambia el tamaño del mapa
 	float worldUnitsInOneGridCell = 1f;
 	struct walker{
 		public Vector2 dir;
