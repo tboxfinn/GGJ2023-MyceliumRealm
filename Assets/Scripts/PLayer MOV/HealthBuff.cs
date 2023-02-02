@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthBuff : MonoBehaviour
+public class HealthBuff : PowerupEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public float amount;
+    public override void ApplyEffect(GameObject target)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //target.GetComponent<PlayerController>().health += 1;
     }
 }

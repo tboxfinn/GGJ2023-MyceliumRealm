@@ -1,18 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public static event Action OnPLayerDamaged;
+    public static event Action OnPlayerDeath;
+
+    public float health, maxHealth;
+
+    private void Start(){
+        health = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void TakeDamage(float amount){
+        health -= amount;
+        OnPLayerDamaged?.Invoke();
+
+        if(health <= 0){
+            health = 0;
+            Debug.Log("Player is dead");
+            OnPlayerDeath?.Invoke();
+        }
     }
 }
