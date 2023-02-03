@@ -171,6 +171,8 @@ MonoBehaviour:
   maxEnemys: 10
   emptyObj: {fileID: 1682820749493489209, guid: c62b237c9d506f34b9936408bfe2d532, type: 3}
   wallObj: {fileID: 7209302844824545039, guid: 50606a35a9d0d5e438e879375e4be3a3, type: 3}
+  wallUpObj: {fileID: 7209302844824545039, guid: 26309e0c83d7739498e5b88680a1c2de, type: 3}
+  wallDownObj: {fileID: 7209302844824545039, guid: 0dfbf646d4a9a9e43be5103d657516d4, type: 3}
   floorObj: {fileID: 1682820749493489209, guid: b350d30ebbfefe84aba57a0cd2fabc3f, type: 3}
   playerObj: {fileID: 0}
   enemyObj: {fileID: 6706001576053224611, guid: 3fe92e564bbdd7241af51d2a455dd49b, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class LevelGenerator : MonoBehaviour {
-	enum gridSpace {empty, floor, wall};
+	enum gridSpace {empty, floor, wall, wallUp, wallDown};
 	gridSpace[,] grid;
 	int roomHeight, roomWidth;
 	public Vector2 roomSizeWorldUnits = new Vector2(50,50); // cambia el tamaño del mapa
@@ -21,7 +21,7 @@ public class LevelGenerator : MonoBehaviour {
 	int maxWalkers = 10;
 	public int maxEnemys = 20;
 	float percentToFill = 0.3f; //
-	public GameObject emptyObj, wallObj, floorObj, playerObj, enemyObj;
+	public GameObject emptyObj, wallObj, wallUpObj, wallDownObj, floorObj, playerObj, enemyObj;
 
 	public NavMeshSurface surface;
 	void Start () {
@@ -142,10 +142,10 @@ public class LevelGenerator : MonoBehaviour {
 				if (grid[x,y] == gridSpace.floor){
 					//if any surrounding spaces are empty, place a wall
 					if (grid[x,y+1] == gridSpace.empty){
-						grid[x,y+1] = gridSpace.wall;
+						grid[x,y+1] = gridSpace.wallUp;
 					}
 					if (grid[x,y-1] == gridSpace.empty){
-						grid[x,y-1] = gridSpace.wall;
+						grid[x,y-1] = gridSpace.wallDown;
 					}
 					if (grid[x+1,y] == gridSpace.empty){
 						grid[x+1,y] = gridSpace.wall;
@@ -162,7 +162,7 @@ public class LevelGenerator : MonoBehaviour {
 		for (int x = 0; x < roomWidth-1; x++){
 			for (int y = 0; y < roomHeight-1; y++){
 				//if theres a wall, check the spaces around it
-				if (grid[x,y] == gridSpace.wall){
+				if (grid[x,y] == gridSpace.wall || grid[x,y] == gridSpace.wallUp || grid[x,y] == gridSpace.wallDown){
 					//assume all space around wall are floors
 					bool allFloors = true;
 					//check each side to see if they are all floors
@@ -200,7 +200,14 @@ public class LevelGenerator : MonoBehaviour {
 						Spawn(x,y,floorObj);
 						break;
 					case gridSpace.wall:
+						
 						Spawn(x,y,wallObj);
+						break;
+					case gridSpace.wallUp:
+						Spawn(x,y,wallUpObj);
+						break;
+					case gridSpace.wallDown:
+						Spawn(x,y,wallDownObj);
 						break;
 				}
 			}

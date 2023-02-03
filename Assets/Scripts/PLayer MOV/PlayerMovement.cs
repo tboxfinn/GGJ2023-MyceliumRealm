@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float activeMoveSpeed;
     public float dashSpeed;
 
-    public float dashLenght, dashCooldown;
+    public float dashLenght, dashCooldown, shootingCooldown;
 
     [SerializeField] private float dashCounter;
     [SerializeField] private float dashCoolCounter;
@@ -63,10 +63,9 @@ public class PlayerMovement : MonoBehaviour
             dashCoolCounter -= Time.deltaTime;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        //on button stay down shoot
+        if (Input.GetMouseButton(0) && shootingCooldown <= 0)
         {
-            //Intancia Loot, para elk enemigo
-            //GetComponent<LootBag>().InstantiateLoot(transform.position);
             Shoot();
         }
 
@@ -99,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Instantiate a prefab at the right position of the player
         Instantiate(proyectil1Prefab, transform.position, Quaternion.identity);
+        shootingCooldown = 2f;
         
     }
     
