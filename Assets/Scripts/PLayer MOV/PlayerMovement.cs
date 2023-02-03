@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody2D playerRb;
 
+    public Animator anim;
     [SerializeField] private Vector2 moveDirection;
+    public bool dashing;
 
     [Header("ProyectilesToSpawn")]
     public GameObject proyectil1Prefab;
@@ -31,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        dashing = false;
+        anim = GetComponent<Animator>();
         activeMoveSpeed = moveSpeed;
         playerRb = GetComponent<Rigidbody2D>();
         
@@ -41,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //INPUTS
         ProcessInputs();
+        Animate();
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -50,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLenght;
+                
             }
         }
 
@@ -59,10 +66,10 @@ public class PlayerMovement : MonoBehaviour
 
             if(dashCounter <= 0)
             {
-                CreateDust();
                 activeMoveSpeed = moveSpeed;
                 dashCoolCounter = dashCooldown;
             }
+            
         }
 
         if(dashCoolCounter > 0)
@@ -81,6 +88,8 @@ public class PlayerMovement : MonoBehaviour
             shootingCooldown -= Time.deltaTime;
         }
 
+        
+
     }
 
     void ProcessInputs()
@@ -98,13 +107,18 @@ public class PlayerMovement : MonoBehaviour
         //CALCULAR FISICAS
         Move();
 
-
          
     }
 
     void Move()
     {
         playerRb.velocity = new Vector2(moveDirection.x * activeMoveSpeed, moveDirection.y * activeMoveSpeed);
+    }
+
+    void Animate()
+    {
+        anim.SetFloat("AnimMoveX", moveDirection.x);
+        anim.SetFloat("AnimMoveY", moveDirection.y);
         
     }
     
