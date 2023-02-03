@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class LevelGenerator : MonoBehaviour {
-	enum gridSpace {empty, floor, wall, wallUp, wallDown};
+	enum gridSpace {empty, floor, wall, wallUp, wallDown, wallRight, wallLeft};
 	gridSpace[,] grid;
 	int roomHeight, roomWidth;
 	public Vector2 roomSizeWorldUnits = new Vector2(50,50); // cambia el tamaño del mapa
@@ -21,7 +21,7 @@ public class LevelGenerator : MonoBehaviour {
 	int maxWalkers = 10;
 	public int maxEnemys = 20;
 	float percentToFill = 0.3f; //
-	public GameObject emptyObj, wallObj, wallUpObj, wallDownObj, floorObj, playerObj, enemyObj;
+	public GameObject emptyObj, wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, playerObj, enemyObj;
 
 	public NavMeshSurface surface;
 	void Start () {
@@ -148,10 +148,10 @@ public class LevelGenerator : MonoBehaviour {
 						grid[x,y-1] = gridSpace.wallDown;
 					}
 					if (grid[x+1,y] == gridSpace.empty){
-						grid[x+1,y] = gridSpace.wall;
+						grid[x+1,y] = gridSpace.wallRight;
 					}
 					if (grid[x-1,y] == gridSpace.empty){
-						grid[x-1,y] = gridSpace.wall;
+						grid[x-1,y] = gridSpace.wallLeft;
 					}
 				}
 			}
@@ -208,6 +208,12 @@ public class LevelGenerator : MonoBehaviour {
 						break;
 					case gridSpace.wallDown:
 						Spawn(x,y,wallDownObj);
+						break;
+					case gridSpace.wallLeft:
+						Spawn(x,y,wallLeftObj);
+						break;
+					case gridSpace.wallRight:
+						Spawn(x,y,wallRightObj);
 						break;
 				}
 			}
