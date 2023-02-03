@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashCounter;
     [SerializeField] private float dashCoolCounter;
 
+    
+
     void Start()
     {
         activeMoveSpeed = moveSpeed;
@@ -95,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
     
     public void Shoot()
     {
+        //Instantiate a prefab at the right position of the player
+        Instantiate(proyectil1Prefab, transform.position, Quaternion.identity);
         
     }
     

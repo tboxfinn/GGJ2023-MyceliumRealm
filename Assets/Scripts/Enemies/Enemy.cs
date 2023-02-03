@@ -6,38 +6,62 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    
-    private NavMeshAgent navMeshAgent;
+    public static event System.Action<Enemy> OnEnemyKilled;
+    [SerializeField] float health, maxHealth=3f;
 
+    [SerializeField] float moveSpeed = 5f;
+    Rigidbody2D rb;
+    Vector2 moveDirection;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updateRotation = false;
-        navMeshAgent.updateUpAxis = false;
+        health = maxHealth;
+        target = GameObject.FindGameObjectWithTag("Player").transform; 
     }
 
+    public void TakeDamage(float damageAmount)
+    {
+        health -= damageAmount;
+        if(health <= 0)
+        {
+            GetComponent<LootBag>().InstantiateLoot(transform.position);
+            Destroy(gameObject);
+            OnEnemyKilled?.Invoke(this);
+        }
+    }
     private void Update()
     {
         var distance = Vector3.Distance(target.position, transform.position);
 
-        if(distance<7f)
+        if (distance < 6f)
         {
-            navMeshAgent.enabled=true;
-            navMeshAgent.SetDestination(target.position);
+            Vector3 direction = (target.position - transform.position).normalized;
+            //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            //rb.rotation = angle;
+            moveDirection = direction;
         }
-        else{
-            navMeshAgent.enabled=false;
+        else
+        {
+            moveDirection = Vector2.zero;
         }
 
         
+
+        
+  
     }
 
-    private void Die()
+    void FixedUpdate()
     {
-        //Intancia Loot, para elk enemigo
-        GetComponent<LootBag>().InstantiateLoot(transform.position);
-        
-        Destroy(gameObject);
+        if (target)
+        {
+            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        }
     }
+
+   
 }
