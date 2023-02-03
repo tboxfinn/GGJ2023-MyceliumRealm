@@ -13,6 +13,7 @@ public class ProyectilMov : MonoBehaviour
     Vector2 moveDirection;
     public float PlayerDistance;
 
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -29,14 +30,14 @@ public class ProyectilMov : MonoBehaviour
         var distance = Vector3.Distance(target.position, transform.position);
         var distance2 = Vector3.Distance(player.position, transform.position);
 
-        if (distance < 4f)
+        /*if (distance < 6f)
         {
             Vector3 direction = (target.position - transform.position).normalized;
             //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             //rb.rotation = angle;
             moveDirection = direction;
         }
-        else if (distance2 < 6f)
+        else if (distance2 < 2f)
         {
             Vector3 direction = (player.position - transform.position).normalized;
             //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -46,9 +47,9 @@ public class ProyectilMov : MonoBehaviour
         else
         {
             moveDirection = Vector2.zero;
-        }
+        }*/
 
-        
+       
 
         
   
@@ -68,4 +69,6 @@ public class ProyectilMov : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
     }
+
+    
 }

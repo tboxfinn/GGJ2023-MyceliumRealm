@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6796569407650476408}
   - component: {fileID: 3899308642168883322}
   - component: {fileID: -4857677766642542677}
-  - component: {fileID: 4095618525487594713}
   - component: {fileID: 8058531755805208859}
+  - component: {fileID: 4095618525487594713}
   m_Layer: 0
   m_Name: ProyectilBase
   m_TagString: Untagged
@@ -115,24 +115,6 @@ PolygonCollider2D:
     - - {x: 0, y: 0.5773587}
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
---- !u!114 &4095618525487594713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512674581077505280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58d99301eb34c648b36ce3dddb7b1fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 6706001576053224608, guid: 3fe92e564bbdd7241af51d2a455dd49b, type: 3}
-  player: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
-  health: 0
-  maxHealth: 3
-  moveSpeed: 4
-  PlayerDistance: 0.2
 --- !u!50 &8058531755805208859
 Rigidbody2D:
   serializedVersion: 4
@@ -154,3 +136,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4095618525487594713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512674581077505280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58d99301eb34c648b36ce3dddb7b1fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  player: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
+  health: 0
+  maxHealth: 3
+  moveSpeed: 4
+  PlayerDistance: 0

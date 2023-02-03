@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Particles")]
+    public ParticleSystem dust;
+
     [SerializeField] private float moveSpeed;
 
     public Rigidbody2D playerRb;
 
-    private Vector2 moveDirection;
+    [SerializeField] private Vector2 moveDirection;
 
     [Header("ProyectilesToSpawn")]
     public GameObject proyectil1Prefab;
@@ -56,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
             if(dashCounter <= 0)
             {
+                CreateDust();
                 activeMoveSpeed = moveSpeed;
                 dashCoolCounter = dashCooldown;
             }
@@ -94,12 +98,14 @@ public class PlayerMovement : MonoBehaviour
         //CALCULAR FISICAS
         Move();
 
+
          
     }
 
     void Move()
     {
         playerRb.velocity = new Vector2(moveDirection.x * activeMoveSpeed, moveDirection.y * activeMoveSpeed);
+        
     }
     
     public void Shoot()
@@ -109,6 +115,11 @@ public class PlayerMovement : MonoBehaviour
         Instantiate(proyectil1Prefab, transform.position + (transform.right * -ProjectileDistance), transform.rotation);
         shootingCooldown = 3f;
         
+    }
+
+    void CreateDust()
+    {
+        dust.Play();
     }
     
 }
