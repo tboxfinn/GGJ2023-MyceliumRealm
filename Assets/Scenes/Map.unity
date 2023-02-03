@@ -927,6 +927,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3013653098207197912, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
+      propertyPath: ProjectileDistance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
       propertyPath: m_RootOrder
       value: 5

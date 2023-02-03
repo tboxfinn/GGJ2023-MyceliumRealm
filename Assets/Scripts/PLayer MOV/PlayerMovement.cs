@@ -22,12 +22,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashCounter;
     [SerializeField] private float dashCoolCounter;
 
+    public float ProjectileDistance;
+
     
 
     void Start()
     {
         activeMoveSpeed = moveSpeed;
         playerRb = GetComponent<Rigidbody2D>();
+        
     }
 
     // Update is called once per frame
@@ -69,6 +72,11 @@ public class PlayerMovement : MonoBehaviour
             Shoot();
         }
 
+        if (shootingCooldown > 0)
+        {
+            shootingCooldown -= Time.deltaTime;
+        }
+
     }
 
     void ProcessInputs()
@@ -96,9 +104,10 @@ public class PlayerMovement : MonoBehaviour
     
     public void Shoot()
     {
-        //Instantiate a prefab at the right position of the player
-        Instantiate(proyectil1Prefab, transform.position, Quaternion.identity);
-        shootingCooldown = 2f;
+        //Instantiate a prefab at a certain distance from the player
+        Instantiate(proyectil1Prefab, transform.position + (transform.right * ProjectileDistance), transform.rotation);
+        Instantiate(proyectil1Prefab, transform.position + (transform.right * -ProjectileDistance), transform.rotation);
+        shootingCooldown = 3f;
         
     }
     
