@@ -29,20 +29,21 @@ public class bullet : MonoBehaviour
             DestroyProjectile();
         }
     }
-
+    public GameObject particle;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("player"))
         {
             DestroyProjectile();
+            
         }
     }
 
 
     void DestroyProjectile()
     {
-
+        Instantiate(particle, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }
