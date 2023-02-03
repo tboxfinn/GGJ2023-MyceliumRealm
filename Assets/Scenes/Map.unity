@@ -178,7 +178,6 @@ MonoBehaviour:
   floorObj: {fileID: 1682820749493489209, guid: b350d30ebbfefe84aba57a0cd2fabc3f, type: 3}
   playerObj: {fileID: 0}
   enemyObj: {fileID: 6706001576053224611, guid: 3fe92e564bbdd7241af51d2a455dd49b, type: 3}
-  surface: {fileID: 0}
 --- !u!1 &339973651
 GameObject:
   m_ObjectHideFlags: 0

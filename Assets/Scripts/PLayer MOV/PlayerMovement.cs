@@ -52,12 +52,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("HOLA");
 
-            if (dashCoolCounter <= 0 && dashCounter <= 0)
-            {
-                activeMoveSpeed = dashSpeed;
-                dashCounter = dashLenght;
-                
-            }
+            Dash();
+
         }
 
         if (dashCounter > 0)
@@ -68,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 activeMoveSpeed = moveSpeed;
                 dashCoolCounter = dashCooldown;
+                anim.SetBool("dash", false);
             }
             
         }
@@ -75,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         if(dashCoolCounter > 0)
         {
             dashCoolCounter -= Time.deltaTime;
+
         }
 
         //on button stay down shoot
@@ -90,6 +88,17 @@ public class PlayerMovement : MonoBehaviour
 
         
 
+    }
+
+    void Dash()
+    {
+        if (dashCoolCounter <= 0 && dashCounter <= 0)
+        {
+            activeMoveSpeed = dashSpeed;
+            dashCounter = dashLenght;
+            anim.SetBool("dash", true);
+
+        }
     }
 
     void ProcessInputs()

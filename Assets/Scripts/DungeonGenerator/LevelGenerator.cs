@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,7 +23,7 @@ public class LevelGenerator : MonoBehaviour {
 	float percentToFill = 0.3f; //
 	public GameObject emptyObj, wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, playerObj, enemyObj;
 
-	public NavMeshSurface surface;
+	
 	void Start () {
 		Setup();
 		CreateFloors();
