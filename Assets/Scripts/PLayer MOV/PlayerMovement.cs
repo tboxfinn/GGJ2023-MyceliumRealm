@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem dust;
 
+    public bool Corrutina = false;
+
     [SerializeField] private float moveSpeed;
 
     public Rigidbody2D playerRb;
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashCoolCounter;
 
     public float ProjectileDistance;
+    [SerializeField] Transform SpawnPoint1, SpawnPoint2;
 
     
 
@@ -44,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Corrutina==false)
+        {
+            StopAllCoroutines();
+        }
+
         //INPUTS
         ProcessInputs();
         Animate();
@@ -78,7 +86,9 @@ public class PlayerMovement : MonoBehaviour
         //on button stay down shoot
         if (Input.GetMouseButton(0) && shootingCooldown <= 0)
         {
-            Shoot();
+            StartCoroutine(Shoot());
+            shootingCooldown = 5f;
+            Corrutina = true;
         }
 
         if (shootingCooldown > 0)
@@ -131,18 +141,21 @@ public class PlayerMovement : MonoBehaviour
         
     }
     
-    public void Shoot()
-    {
-        //Instantiate a prefab at a certain distance from the player
-        Instantiate(proyectil1Prefab, transform.position + (transform.right * ProjectileDistance), transform.rotation);
-        Instantiate(proyectil1Prefab, transform.position + (transform.right * -ProjectileDistance), transform.rotation);
-        shootingCooldown = 3f;
-        
-    }
 
     void CreateDust()
     {
         dust.Play();
     }
+
+    IEnumerator Shoot()
+    {
+        //dust.Play();
+        yield return new WaitForSeconds(1.5f);
+        Instantiate(proyectil1Prefab, SpawnPoint1.position, SpawnPoint1.rotation);
+        Instantiate(proyectil1Prefab, SpawnPoint2.position, SpawnPoint2.rotation); 
+        //dust.Stop();    
+        Corrutina = false;
+    }
+    
     
 }

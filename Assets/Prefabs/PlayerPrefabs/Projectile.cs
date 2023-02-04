@@ -4,57 +4,20 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private Transform player, targetEnemy;
-    [SerializeField] float followRange = 6f;
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] Vector3 followOffset;
-    Rigidbody2D rb;
-    Vector2 moveDirection;
-
-    void Awake()
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float speed;
+    public void Init(Vector2 direction)
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb.velocity = direction * speed;
     }
 
-    private void Start()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-    }
-
-    private void Update()
-    {
-        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        float distanceToEnemy = float.MaxValue;
-
-        if (targetEnemy)
+        other.transform.GetComponent<Enemy>()?.TakeDamage(1);
+        
+        if (other.gameObject.tag == "Enemy")
         {
-            distanceToEnemy = Vector3.Distance(targetEnemy.position, transform.position);
+            Destroy(gameObject);
         }
-
-        if (distanceToEnemy < followRange)
-        {
-            Vector3 direction = (targetEnemy.position - transform.position).normalized;
-            moveDirection = direction;
-        }
-        else if (distanceToPlayer < followRange)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-            Vector3 direction = (player.position + followOffset - transform.position).normalized;
-            moveDirection = direction;
-        }
-        else
-        {
-            moveDirection = Vector2.zero;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-    }
-
-    public void SetTargetEnemy(Transform enemy)
-    {
-        targetEnemy = enemy;
     }
 }

@@ -6,7 +6,11 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] Transform player;
+    [SerializeField] Transform SpawnPoint, SpawnPoint2; //distancia
     [SerializeField] float threshold; //distancia
+    [SerializeField] private Projectile projectilePrefab;
+    public bool CanShoot = true;
+    
 
     void Update(){
         Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition); //checa posicion del mouse
@@ -16,5 +20,9 @@ public class CameraController : MonoBehaviour
         targetPos.y = Mathf.Clamp(targetPos.y, -threshold + player.position.y, threshold + player.position.y);
 
         this.transform.position = targetPos;
+
+        
     }
+
+    
 }

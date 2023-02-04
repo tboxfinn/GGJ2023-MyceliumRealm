@@ -49,10 +49,6 @@ public class Enemy : MonoBehaviour
             moveDirection = Vector2.zero;
         }
 
-        
-
-        
-  
     }
 
     void FixedUpdate()
@@ -62,6 +58,8 @@ public class Enemy : MonoBehaviour
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
         }
     }
+
+    
 
    
 }
