@@ -1021,6 +1021,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3013653098207197912, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1852751792}
     - target: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
       propertyPath: m_RootOrder
       value: 5

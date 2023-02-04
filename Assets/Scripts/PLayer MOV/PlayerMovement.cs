@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] Camera cam;
+
     [Header("Particles")]
     public ParticleSystem dust;
     public ParticleSystem WalkingDust;
@@ -34,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
     public float ProjectileDistance;
     [SerializeField] Transform SpawnPoint1, SpawnPoint2;
 
+    Vector3 mousePos;
+    Vector3 targetPos;
+    [SerializeField] float threshold;
+
     
 
     void Start()
@@ -48,6 +54,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        targetPos = (transform.position + mousePos)/2f;
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        
+
+        targetPos.x = Mathf.Clamp(targetPos.x, -threshold + transform.position.x, threshold + transform.position.x); //limita la distancia
+        targetPos.y = Mathf.Clamp(targetPos.y, -threshold + transform.position.y, threshold + transform.position.y);
+
         if (moveDirection != Vector2.zero&& !WalkingDust.isPlaying)
         {
             WalkingDust.Play();
