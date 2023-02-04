@@ -20,6 +20,7 @@ public class boss : MonoBehaviour
     public Transform player;
     public GameObject projectile;
     public GameObject projectile2;
+    public GameObject projectile3;
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +79,10 @@ public class boss : MonoBehaviour
         yield return new WaitForSecondsRealtime(5);
 
         Debug.Log("lmao2");
-
+        timeBtwShots = 1;
+        Instantiate(projectile3, transform.position, Quaternion.identity);
+        yield return new WaitForSecondsRealtime(0.1F);
+        Instantiate(projectile3, transform.position, Quaternion.identity);
         yield return new WaitForSecondsRealtime(5);
 
         senal = 1;
