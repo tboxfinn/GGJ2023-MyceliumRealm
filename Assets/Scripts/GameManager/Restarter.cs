@@ -10,6 +10,7 @@ public class Restarter : MonoBehaviour {
 	void Start(){
 		gameOverMenu.SetActive(false);
 		pauseMenu.SetActive(false);
+		Time.timeScale = 1;
 	}
 
 	public void EnableGameOverMenu(){

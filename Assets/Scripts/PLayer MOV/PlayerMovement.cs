@@ -125,8 +125,9 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButton(0) && shootingCooldown <= 0)
         {
             StartCoroutine(Shoot());
-            shootingCooldown = 5f;
+            shootingCooldown = 3f;
             Corrutina = true;
+            DisablePlayerMovement();
         }
 
         if (shootingCooldown > 0)
@@ -188,10 +189,10 @@ public class PlayerMovement : MonoBehaviour
     {
         //instantiate dust particle then destroy it
         
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1f);
         Instantiate(proyectil1Prefab, SpawnPoint1.position, SpawnPoint1.rotation);
         Instantiate(proyectil1Prefab, SpawnPoint2.position, SpawnPoint2.rotation); 
-        
+        EnablePlayerMovement();
         Corrutina = false;
 
     }
@@ -199,11 +200,13 @@ public class PlayerMovement : MonoBehaviour
     private void EnablePlayerMovement(){
         anim.enabled = true;
         playerRb.bodyType = RigidbodyType2D.Dynamic;
+        Debug.Log("Player movement enabled");
     }
 
     private void DisablePlayerMovement(){
         anim.enabled = false;
         playerRb.bodyType = RigidbodyType2D.Static;
+        Debug.Log("Player movement disabled");
     }
     
     
