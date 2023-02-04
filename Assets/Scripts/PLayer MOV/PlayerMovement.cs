@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Particles")]
     public ParticleSystem dust;
+    public ParticleSystem WalkingDust;
 
     public bool Corrutina = false;
 
@@ -47,9 +48,19 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (moveDirection != Vector2.zero&& !WalkingDust.isPlaying)
+        {
+            WalkingDust.Play();
+        }
+        else if(WalkingDust.isPlaying && moveDirection == Vector2.zero)
+        {
+            WalkingDust.Stop();
+        }
+
         if (Corrutina==false)
         {
             StopAllCoroutines();
+            
         }
 
         //INPUTS
@@ -63,6 +74,8 @@ public class PlayerMovement : MonoBehaviour
             Dash();
 
         }
+
+        
 
         if (dashCounter > 0)
         {
@@ -118,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection = new Vector2(moveX, moveY).normalized;
         
+
         moveDirection.Normalize();
     }
 
@@ -132,6 +146,8 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         playerRb.velocity = new Vector2(moveDirection.x * activeMoveSpeed, moveDirection.y * activeMoveSpeed);
+        //activate dust particle
+        
     }
 
     void Animate()
@@ -142,19 +158,17 @@ public class PlayerMovement : MonoBehaviour
     }
     
 
-    void CreateDust()
-    {
-        dust.Play();
-    }
 
     IEnumerator Shoot()
     {
-        //dust.Play();
-        yield return new WaitForSeconds(1.5f);
+        //instantiate dust particle then destroy it
+        
+        yield return new WaitForSeconds(1.2f);
         Instantiate(proyectil1Prefab, SpawnPoint1.position, SpawnPoint1.rotation);
         Instantiate(proyectil1Prefab, SpawnPoint2.position, SpawnPoint2.rotation); 
-        //dust.Stop();    
+        
         Corrutina = false;
+
     }
     
     

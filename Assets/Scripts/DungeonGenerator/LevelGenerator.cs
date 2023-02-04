@@ -21,7 +21,7 @@ public class LevelGenerator : MonoBehaviour {
 	int maxWalkers = 10;
 	public int maxEnemys = 20;
 	float percentToFill = 0.3f; //
-	public GameObject emptyObj, wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, playerObj, enemyObj;
+	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj;
 
 	
 	void Start () {
@@ -197,23 +197,23 @@ public class LevelGenerator : MonoBehaviour {
 						//Spawn(x,y,emptyObj);
 						break;
 					case gridSpace.floor:
-						Spawn(x,y,floorObj);
+						Spawn(x,y,floorObj[Random.Range(0,floorObj.Length)]);
 						break;
 					case gridSpace.wall:
 						
-						Spawn(x,y,wallObj);
+						Spawn(x,y,wallObj[Random.Range(0,wallObj.Length)]);
 						break;
 					case gridSpace.wallUp:
-						Spawn(x,y,wallUpObj);
+						Spawn(x,y,wallUpObj[Random.Range(0,wallUpObj.Length)]);
 						break;
 					case gridSpace.wallDown:
-						Spawn(x,y,wallDownObj);
+						Spawn(x,y,wallDownObj[Random.Range(0,wallDownObj.Length)]);
 						break;
 					case gridSpace.wallLeft:
-						Spawn(x,y,wallLeftObj);
+						Spawn(x,y,wallLeftObj[Random.Range(0,wallLeftObj.Length)]);
 						break;
 					case gridSpace.wallRight:
-						Spawn(x,y,wallRightObj);
+						Spawn(x,y,wallRightObj[Random.Range(0,wallRightObj.Length)]);
 						break;
 				}
 			}
@@ -231,7 +231,7 @@ public class LevelGenerator : MonoBehaviour {
 		//if the position is a floor, spawn an enemy
 		if (grid[x, y] == gridSpace.floor)
 		{
-			Spawn(x, y, enemyObj);
+			Spawn(x, y, enemyObj[Random.Range(0,enemyObj.Length)]);
 		}
 		
 	}
