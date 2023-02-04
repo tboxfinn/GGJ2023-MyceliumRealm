@@ -41,19 +41,30 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float threshold;
 
     
+    void OnEnable(){
+        PlayerHealth.OnPlayerDeath += DisablePlayerMovement;
+    }
 
+    void OnDisable(){
+        PlayerHealth.OnPlayerDeath -= DisablePlayerMovement;
+    }
+
+    
     void Start()
     {
         dashing = false;
         anim = GetComponent<Animator>();
         activeMoveSpeed = moveSpeed;
         playerRb = GetComponent<Rigidbody2D>();
+        EnablePlayerMovement();
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
         targetPos = (transform.position + mousePos)/2f;
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
 
@@ -183,6 +194,16 @@ public class PlayerMovement : MonoBehaviour
         
         Corrutina = false;
 
+    }
+
+    private void EnablePlayerMovement(){
+        anim.enabled = true;
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
+    }
+
+    private void DisablePlayerMovement(){
+        anim.enabled = false;
+        playerRb.bodyType = RigidbodyType2D.Static;
     }
     
     

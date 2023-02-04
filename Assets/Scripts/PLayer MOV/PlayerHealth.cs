@@ -10,6 +10,10 @@ public class PlayerHealth : MonoBehaviour
 
     public float health, maxHealth;
 
+    public Restarter restarter;
+
+    public static object Instance { get; internal set; }
+
     private void Start(){
         health = maxHealth;
     }
@@ -20,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
         if(health <= 0){
             health = 0;
+            restarter.EnableGameOverMenu();
             Debug.Log("Player is dead");
             OnPlayerDeath?.Invoke();
         }
