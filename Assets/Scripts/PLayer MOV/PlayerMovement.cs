@@ -124,9 +124,11 @@ public class PlayerMovement : MonoBehaviour
         //on button stay down shoot
         if (Input.GetMouseButton(0) && shootingCooldown <= 0)
         {
+            anim.SetBool("Attacking", true);
             StartCoroutine(Shoot());
             shootingCooldown = 3f;
             Corrutina = true;
+            
             DisablePlayerMovement();
         }
 
@@ -134,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
         {
             shootingCooldown -= Time.deltaTime;
         }
-
+        
         
 
     }
@@ -193,18 +195,19 @@ public class PlayerMovement : MonoBehaviour
         Instantiate(proyectil1Prefab, SpawnPoint1.position, SpawnPoint1.rotation);
         Instantiate(proyectil1Prefab, SpawnPoint2.position, SpawnPoint2.rotation); 
         EnablePlayerMovement();
+        anim.SetBool("Attacking", false);
         Corrutina = false;
 
     }
 
     private void EnablePlayerMovement(){
-        anim.enabled = true;
+        //anim.enabled = true;
         playerRb.bodyType = RigidbodyType2D.Dynamic;
         Debug.Log("Player movement enabled");
     }
 
     private void DisablePlayerMovement(){
-        anim.enabled = false;
+        //anim.enabled = false;
         playerRb.bodyType = RigidbodyType2D.Static;
         Debug.Log("Player movement disabled");
     }
