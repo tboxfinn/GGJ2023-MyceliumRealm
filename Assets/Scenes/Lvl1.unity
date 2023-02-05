@@ -385,17 +385,17 @@ MonoBehaviour:
   wallObj:
   - {fileID: 7209302844824545039, guid: 26309e0c83d7739498e5b88680a1c2de, type: 3}
   wallUpObj:
-  - {fileID: 7209302844824545039, guid: 1d5e80dca872ac34996887c02585b923, type: 3}
   - {fileID: 7209302844824545039, guid: bb762c8eb9d95d44990eb0796d8bd000, type: 3}
+  - {fileID: 7209302844824545039, guid: 1d5e80dca872ac34996887c02585b923, type: 3}
   wallDownObj:
   - {fileID: 7209302844824545039, guid: 0dfbf646d4a9a9e43be5103d657516d4, type: 3}
   - {fileID: 7209302844824545039, guid: 1380bd6200a3d8f41ab225291e53dea4, type: 3}
   wallRightObj:
-  - {fileID: 7209302844824545039, guid: 0ea645583a498c24289ab87d64d542f7, type: 3}
-  - {fileID: 7209302844824545039, guid: ae14df35e48b0a7459145adea2a6e37d, type: 3}
-  wallLeftObj:
   - {fileID: 7209302844824545039, guid: 50606a35a9d0d5e438e879375e4be3a3, type: 3}
   - {fileID: 7209302844824545039, guid: 747c929659abdb046bc9f11c7e58866f, type: 3}
+  wallLeftObj:
+  - {fileID: 7209302844824545039, guid: 0ea645583a498c24289ab87d64d542f7, type: 3}
+  - {fileID: 7209302844824545039, guid: ae14df35e48b0a7459145adea2a6e37d, type: 3}
   floorObj:
   - {fileID: 1682820749493489209, guid: b350d30ebbfefe84aba57a0cd2fabc3f, type: 3}
   - {fileID: 1682820749493489209, guid: f7a7fa349aa2ae54389e2aa6acf43bf7, type: 3}
@@ -418,6 +418,8 @@ MonoBehaviour:
   - {fileID: 6706001576053224611, guid: 57045c27a01be3743b183dd2ef2b7584, type: 3}
   bossObj:
   - {fileID: 6706001576053224611, guid: 0c58e61db5decc64f91b4875d26f9621, type: 3}
+  emptyObj:
+  - {fileID: 7209302844824545039, guid: 26309e0c83d7739498e5b88680a1c2de, type: 3}
   BossCreado: 0
 --- !u!1 &339973651
 GameObject:
@@ -2131,7 +2133,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.34117648, g: 0.45882353, b: 0.5647059, a: 0}
+  m_BackGroundColor: {r: 0.49803922, g: 0.3019608, b: 0.20784314, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

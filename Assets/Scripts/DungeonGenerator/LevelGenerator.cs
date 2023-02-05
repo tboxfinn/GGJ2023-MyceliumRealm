@@ -23,7 +23,7 @@ public class LevelGenerator : MonoBehaviour {
 	float percentToFill = 0.3f; //
 
 	public GameObject Exit;
-	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj, bossObj;
+	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj, bossObj, emptyObj;
 	public bool BossCreado = false;
 	
 	void Start () {
@@ -203,7 +203,7 @@ public class LevelGenerator : MonoBehaviour {
 			for (int y = 0; y < roomHeight; y++){
 				switch(grid[x,y]){
 					case gridSpace.empty:
-						//Spawn(x,y,emptyObj);
+						Spawn(x,y,emptyObj[Random.Range(0,emptyObj.Length)]);
 						break;
 					case gridSpace.floor:
 						Spawn(x,y,floorObj[Random.Range(0,floorObj.Length)]);
