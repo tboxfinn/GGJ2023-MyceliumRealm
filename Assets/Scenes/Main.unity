@@ -2146,6 +2146,7 @@ MonoBehaviour:
   projectile: {fileID: 6026776784949461456, guid: 15027187d66bdb34f928cb0d7f58a434, type: 3}
   projectile2: {fileID: 6440999538635889420, guid: a7819fbd6c900474fbc64c55ead8e80d, type: 3}
   projectile3: {fileID: 409561033271804593, guid: ba168c04fe4c35046b42064d1346c110, type: 3}
+  projectile4: {fileID: 120056654999417276, guid: 5acb164b21d20e14f9edef2ad11f1ced, type: 3}
 --- !u!1 &1400617138
 GameObject:
   m_ObjectHideFlags: 0

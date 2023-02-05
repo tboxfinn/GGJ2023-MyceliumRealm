@@ -21,6 +21,7 @@ public class boss : MonoBehaviour
     public GameObject projectile;
     public GameObject projectile2;
     public GameObject projectile3;
+    public GameObject projectile4;
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +85,9 @@ public class boss : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1F);
         Instantiate(projectile3, transform.position, Quaternion.identity);
         yield return new WaitForSecondsRealtime(5);
+        timeBtwShots = 1;
+        yield return new WaitForSecondsRealtime(1);
+        Instantiate(projectile4, transform.position, Quaternion.identity);
 
         senal = 1;
     }
