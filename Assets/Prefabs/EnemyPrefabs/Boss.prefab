@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6706001576053224622}
   - component: {fileID: 921120537}
   - component: {fileID: 3366222602546769778}
+  - component: {fileID: 8986539833103480378}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -160,7 +161,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6706001576053224611}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0afbd7124c3e8f4ca77f83caa8cc06d, type: 3}
   m_Name: 
@@ -201,3 +202,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8986539833103480378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6706001576053224611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dbe50666e432954e871ec35a00e51c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  stoppingDistance: 3
+  retreaDistance: 8
+  startTimeBtwShots: 5
+  player: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
+  projectile: {fileID: 0}
+  projectile2: {fileID: 0}
+  projectile3: {fileID: 0}
+  projectile4: {fileID: 0}
