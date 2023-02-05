@@ -21,6 +21,8 @@ public class LevelGenerator : MonoBehaviour {
 	int maxWalkers = 10;
 	public int maxEnemys = 15, enemiesGenerated;
 	float percentToFill = 0.3f; //
+
+	public GameObject Exit;
 	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj, bossObj;
 	public bool BossCreado = false;
 	
@@ -245,6 +247,21 @@ public class LevelGenerator : MonoBehaviour {
 			//if the position is not a floor, try again
 			SpawnEnemy();
 		}	
+	}
+
+	void SpawnExit(){
+		int x = Random.Range(0, roomWidth);
+		int y = Random.Range(0, roomHeight);
+		//if the position is a floor, spawn an enemy
+		if (grid[x, y] == gridSpace.floor)
+		{
+			Spawn(x, y, Exit);
+		}
+		else
+		{
+			//if the position is not a floor, try again
+			SpawnExit();
+		}
 	}
 
 	void SpawnBoss()
