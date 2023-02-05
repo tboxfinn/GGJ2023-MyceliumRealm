@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5528249820470536609}
   - component: {fileID: 2374483188569462493}
   m_Layer: 0
-  m_Name: Wall 3
+  m_Name: ParedBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,8 +133,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5566038, g: 0.19691172, b: 0.25192347, a: 1}
+  m_Sprite: {fileID: -1369291173, guid: fce37b57376715f4d932289459497edd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
