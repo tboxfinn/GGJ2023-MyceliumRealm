@@ -214,12 +214,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dbe50666e432954e871ec35a00e51c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 3
   stoppingDistance: 3
-  retreaDistance: 8
-  startTimeBtwShots: 0.3
+  retreaDistance: 2
+  startTimeBtwShots: 1
   player: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
-  projectile: {fileID: 0}
-  projectile2: {fileID: 0}
-  projectile3: {fileID: 0}
-  projectile4: {fileID: 0}
+  projectile: {fileID: 3654472136560837106, guid: c361c11000d908443b3cfad172770ec9, type: 3}
+  projectile2: {fileID: 8055697287671747095, guid: 34ea87916135db445bafc4f29fca7a05, type: 3}
+  projectile3: {fileID: 4594660002449738219, guid: fc287ae3ad593e04fbeba8934d3a7be7, type: 3}
+  projectile4: {fileID: 8528286536586556199, guid: 38c575cd757ac3f4e834d4a4e2ea9890, type: 3}
