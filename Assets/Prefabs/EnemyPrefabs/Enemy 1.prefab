@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6706001576053224622}
   - component: {fileID: 921120537}
   m_Layer: 0
-  m_Name: Boss
+  m_Name: Enemy 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 6706001576053224611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.40358758, g: 0.14684944, b: 0.5660378, a: 1}
+  m_Color: {r: 0.2836078, g: 0.5283019, b: 0.11213957, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -150,7 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedItemPrefab: {fileID: 8604012098742028833, guid: 02b85decd7b052448ae1a4a7d344ead9, type: 3}
   lootList:
-  - {fileID: 11400000, guid: 9460dd627aee7ae43abc19e899fc0927, type: 2}
+  - {fileID: 11400000, guid: 9a40b64a6cc65174990ec5a7fc35210b, type: 2}
+  - {fileID: 11400000, guid: 0fac482560c4fa640883cb2bebd4c5e8, type: 2}
+  - {fileID: 11400000, guid: 9f2826d8030fe974aab1b61a13b27b27, type: 2}
 --- !u!114 &6706001576053224622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,10 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0afbd7124c3e8f4ca77f83caa8cc06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 3013653098207197915, guid: 492a1ad5682d16a43911b36ae82620c1, type: 3}
   health: 0
-  maxHealth: 3
-  moveSpeed: 2
+  maxHealth: 5
+  moveSpeed: 1
 --- !u!114 &921120537
 MonoBehaviour:
   m_ObjectHideFlags: 0

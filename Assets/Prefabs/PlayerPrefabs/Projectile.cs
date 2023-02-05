@@ -19,16 +19,6 @@ public class Projectile : MonoBehaviour
     }
     
 
-    /*void OnTriggerEnter2D(Collider2D other)
-    {
-        other.transform.GetComponent<Enemy>()?.TakeDamage(1);
-
-        if (other.gameObject.tag == "Enemy")
-        {
-            Destroy(gameObject);
-        }
-    }*/
-
     void OnCollisionEnter2D(Collision2D other)
     {
         other.transform.GetComponent<Enemy>()?.TakeDamage(1);
@@ -38,6 +28,15 @@ public class Projectile : MonoBehaviour
             
             Destroy(gameObject);
         }
+
+        other.transform.GetComponent<Enemy>()?.TakeDamage(1);
+
+        if (other.gameObject.tag == "Boss")
+        {
+            
+            Destroy(gameObject);
+        }
+
     }
 
     

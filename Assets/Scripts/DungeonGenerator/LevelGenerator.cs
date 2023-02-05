@@ -50,6 +50,8 @@ public class LevelGenerator : MonoBehaviour {
 			SpawnBoss();
 			BossCreado = true;
 		}
+
+		
 	}
 	void Setup(){
 		//find grid size

@@ -22,7 +22,7 @@ public class FollowEnemyBullet : MonoBehaviour
     }*/
 
     public float maxMoveSpeed = 3f;
-    public float smoothTime = 0.7f;
+    public float smoothTime = .1f;
     Vector2 currentVelocity;
     void Update()
     {
