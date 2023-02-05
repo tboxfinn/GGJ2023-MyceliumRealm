@@ -29,4 +29,12 @@ public class PlayerHealth : MonoBehaviour
             OnPlayerDeath?.Invoke();
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Loot"&& health < maxHealth)
+        {
+            health += .5f;
+        }
+    }
 }

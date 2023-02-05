@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Slider staminaBar;
+    public float dValue;
+
     [SerializeField] Camera cam;
 
     [Header("Particles")]
@@ -24,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("ProyectilesToSpawn")]
     public GameObject proyectil1Prefab;
 
+    [SerializeField] private AudioSource WalkSound;
+    [SerializeField] private AudioSource ProjectileSpawnSound;
+    [SerializeField] private AudioSource DashSound;
 
     [SerializeField] private float activeMoveSpeed;
     public float dashSpeed;
@@ -57,13 +64,14 @@ public class PlayerMovement : MonoBehaviour
         activeMoveSpeed = moveSpeed;
         playerRb = GetComponent<Rigidbody2D>();
         EnablePlayerMovement();
+        staminaBar.value = dashCoolCounter;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        staminaBar.value = dashCoolCounter;
 
         targetPos = (transform.position + mousePos)/2f;
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -75,10 +83,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveDirection != Vector2.zero&& !WalkingDust.isPlaying)
         {
+            WalkSound.Play();
             WalkingDust.Play();
         }
         else if(WalkingDust.isPlaying && moveDirection == Vector2.zero)
         {
+            WalkSound.Stop();
             WalkingDust.Stop();
         }
 
@@ -145,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (dashCoolCounter <= 0 && dashCounter <= 0)
         {
+            DashSound.Play();
             activeMoveSpeed = dashSpeed;
             dashCounter = dashLenght;
             anim.SetBool("dash", true);
@@ -156,6 +167,8 @@ public class PlayerMovement : MonoBehaviour
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
+
+        
 
         moveDirection = new Vector2(moveX, moveY).normalized;
         
@@ -176,6 +189,7 @@ public class PlayerMovement : MonoBehaviour
         playerRb.velocity = new Vector2(moveDirection.x * activeMoveSpeed, moveDirection.y * activeMoveSpeed);
         //activate dust particle
         
+        
     }
 
     void Animate()
@@ -190,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Shoot()
     {
         //instantiate dust particle then destroy it
-        
+        ProjectileSpawnSound.Play();
         yield return new WaitForSeconds(1f);
         Instantiate(proyectil1Prefab, SpawnPoint1.position, SpawnPoint1.rotation);
         Instantiate(proyectil1Prefab, SpawnPoint2.position, SpawnPoint2.rotation); 

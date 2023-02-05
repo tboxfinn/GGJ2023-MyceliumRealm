@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4489160958921846098}
   m_Layer: 0
   m_Name: LootPrefab
-  m_TagString: Untagged
+  m_TagString: Loot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LootDestroyer : MonoBehaviour
 {
-    public float LifeTime = 10f;
+    public float LifeTime = 5f;
     private float timeAlive = 0f;
     public PlayerHealth PlayerVida;
 
@@ -22,8 +22,6 @@ public class LootDestroyer : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             //give player health
-            PlayerVida.health += 1;
-
             Destroy(gameObject);
         }
     }
