@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 6706001576053224620}
   - component: {fileID: 6706001576053224621}
   - component: {fileID: 6706001576053224610}
-  - component: {fileID: 6706001576053224622}
   - component: {fileID: 921120537}
   - component: {fileID: 3366222602546769778}
   - component: {fileID: 8986539833103480378}
+  - component: {fileID: 1910835972343012677}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -154,22 +154,6 @@ MonoBehaviour:
   LifeTime: 5
   lootList:
   - {fileID: 11400000, guid: 9460dd627aee7ae43abc19e899fc0927, type: 2}
---- !u!114 &6706001576053224622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6706001576053224611}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0afbd7124c3e8f4ca77f83caa8cc06d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  health: 0
-  maxHealth: 3
-  moveSpeed: 2
 --- !u!114 &921120537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,3 +207,17 @@ MonoBehaviour:
   projectile2: {fileID: 8055697287671747095, guid: 34ea87916135db445bafc4f29fca7a05, type: 3}
   projectile3: {fileID: 4594660002449738219, guid: fc287ae3ad593e04fbeba8934d3a7be7, type: 3}
   projectile4: {fileID: 8528286536586556199, guid: 38c575cd757ac3f4e834d4a4e2ea9890, type: 3}
+--- !u!114 &1910835972343012677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6706001576053224611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2eb1d45aab7fb9468dea31d7b2e2860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 5

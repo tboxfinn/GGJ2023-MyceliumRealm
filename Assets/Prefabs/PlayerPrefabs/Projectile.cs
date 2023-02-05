@@ -22,6 +22,7 @@ public class Projectile : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         other.transform.GetComponent<Enemy>()?.TakeDamage(1);
+        other.transform.GetComponent<BosHealth>()?.TakeDamage(1);
 
         if (other.gameObject.tag == "Enemy")
         {
@@ -30,6 +31,7 @@ public class Projectile : MonoBehaviour
         }
 
         other.transform.GetComponent<Enemy>()?.TakeDamage(1);
+        other.transform.GetComponent<BosHealth>()?.TakeDamage(1);
 
         if (other.gameObject.tag == "Boss")
         {

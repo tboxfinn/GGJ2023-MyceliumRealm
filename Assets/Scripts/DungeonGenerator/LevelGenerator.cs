@@ -19,7 +19,7 @@ public class LevelGenerator : MonoBehaviour {
 	float chanceWalkerChangeDir = 0.5f, chanceWalkerSpawn = 0.05f;
 	float chanceWalkerDestoy = 0.05f;
 	int maxWalkers = 10;
-	public int maxEnemys = 15, enemiesGenerated;
+	public int maxEnemys = 10, enemiesGenerated;
 	float percentToFill = 0.3f; //
 
 	public GameObject Exit;
@@ -46,7 +46,7 @@ public class LevelGenerator : MonoBehaviour {
 			}
 		}
 
-		if (enemiesGenerated == maxEnemys+1&& BossCreado == false){
+		if (enemiesGenerated == maxEnemys+10&& BossCreado == false){
 			SpawnBoss();
 			BossCreado = true;
 		}

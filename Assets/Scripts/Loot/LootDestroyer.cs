@@ -6,6 +6,7 @@ public class LootDestroyer : MonoBehaviour
 {
     public float LifeTime = 10f;
     private float timeAlive = 0f;
+    public PlayerHealth PlayerVida;
 
     private void Update()
     {
@@ -20,6 +21,9 @@ public class LootDestroyer : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            //give player health
+            PlayerVida.health += 1;
+
             Destroy(gameObject);
         }
     }
