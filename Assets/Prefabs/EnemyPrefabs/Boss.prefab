@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6706001576053224610}
   - component: {fileID: 6706001576053224622}
   - component: {fileID: 921120537}
+  - component: {fileID: 3366222602546769778}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droppedItemPrefab: {fileID: 8604012098742028833, guid: 02b85decd7b052448ae1a4a7d344ead9, type: 3}
+  LifeTime: 5
   lootList:
   - {fileID: 11400000, guid: 9460dd627aee7ae43abc19e899fc0927, type: 2}
 --- !u!114 &6706001576053224622
@@ -179,3 +181,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3806212f0197b488b56ce5335b1892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &3366222602546769778
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6706001576053224611}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 26ff27195ce5ebd4baf926aa701f4b24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

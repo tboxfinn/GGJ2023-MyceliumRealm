@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class LootScriptable : ScriptableObject
 {
+    
     public Sprite lootSprite;
     public string lootName;
     public int dropChance;
@@ -14,5 +15,7 @@ public class LootScriptable : ScriptableObject
         this.lootName = lootName;
         this.dropChance = dropChance;
     }
+
+    
         
 }

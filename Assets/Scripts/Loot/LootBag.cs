@@ -5,7 +5,10 @@ using UnityEngine;
 public class LootBag : MonoBehaviour
 {
     public GameObject droppedItemPrefab;
+    public float LifeTime = 5f;
     public List<LootScriptable> lootList = new List<LootScriptable>();
+
+    public Object lootGameObject { get; private set; }
 
     LootScriptable GetDroppeditem()
     {
@@ -41,4 +44,5 @@ public class LootBag : MonoBehaviour
 
         
     }
+    
 }

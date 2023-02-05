@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a21ccfce6089ac41a792897cc63b775, type: 3}
   m_Name: Food
   m_EditorClassIdentifier: 
-  lootSprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
+  lootSprite: {fileID: -503185724, guid: 98c8ec4fb7cbc384fb9a245a38d35af2, type: 3}
   lootName: Food
   dropChance: 20
