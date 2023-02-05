@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 234eb302a6edb744596bef173f14b936
+guid: 5c68210cd5af0ee4c931771fc9fded42
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TilesParedes_0
+      name: TilesParedes2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cea917d632e790f48a7b1292ae775a60
-      internalID: -1150948267
+      spriteID: 56d0eaab18153654d9e539bb1ba49461
+      internalID: -1821866200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_1
+      name: TilesParedes2_1
       rect:
         serializedVersion: 2
         x: 128
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59c150db05aed174a9a684640e165eb4
-      internalID: 1123331083
+      spriteID: 7d765bea359e7dd4297f9c2e28723150
+      internalID: -233721536
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_2
+      name: TilesParedes2_2
       rect:
         serializedVersion: 2
         x: 256
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 770f03a700d3d3147a3eb16e5e223557
-      internalID: 1314467821
+      spriteID: f8baa3fe9351b234c8ba364c14f4d19e
+      internalID: 697116775
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_3
+      name: TilesParedes2_3
       rect:
         serializedVersion: 2
         x: 384
@@ -194,14 +194,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b25e271667558e4e90e48146b823595
-      internalID: -1587639993
+      spriteID: 39652a23463f08d46a9b38606f274b76
+      internalID: 676967275
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_4
+      name: TilesParedes2_4
       rect:
         serializedVersion: 2
         x: 0
@@ -215,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfae21bb48c5765438a0f60f9bb91dda
-      internalID: 1300601878
+      spriteID: 4454c961309251a478b7c41fdd08b467
+      internalID: -1529076159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_5
+      name: TilesParedes2_5
       rect:
         serializedVersion: 2
         x: 128
@@ -236,14 +236,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52dadff3f5e4a334eb6aca2e7226638c
-      internalID: 524705695
+      spriteID: d35515a2f2f3c1148b8fca57e70f1aff
+      internalID: -1425847888
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_6
+      name: TilesParedes2_6
       rect:
         serializedVersion: 2
         x: 256
@@ -257,14 +257,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec81d4bc595d01946967708bb9faf265
-      internalID: 947483462
+      spriteID: dc96da14f8d034f498a4185bfc8d4d55
+      internalID: -1036674764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_7
+      name: TilesParedes2_7
       rect:
         serializedVersion: 2
         x: 384
@@ -278,14 +278,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae95562f3d227064193805429478e0ed
-      internalID: -1520601803
+      spriteID: fbe15c526f4c4ba4997cf8108bd1b48b
+      internalID: 1084978304
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_8
+      name: TilesParedes2_8
       rect:
         serializedVersion: 2
         x: 0
@@ -299,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd437d77224a9ff449b9f50ab912e295
-      internalID: -1551031724
+      spriteID: 72d4838a4a06fa143b70d5d65b726b18
+      internalID: 82602581
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_9
+      name: TilesParedes2_9
       rect:
         serializedVersion: 2
         x: 128
@@ -320,14 +320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ecc94664acba8c40a2dfd6f9f000a97
-      internalID: 548077013
+      spriteID: 409002807fc14bd4fb80624372cddb28
+      internalID: -1968936993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_10
+      name: TilesParedes2_10
       rect:
         serializedVersion: 2
         x: 256
@@ -341,14 +341,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a0fa277888782da49b65a7d8fef39d50
-      internalID: 983271056
+      spriteID: 938aaa68323cd8f4db5f2a0801467cc8
+      internalID: -985614073
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesParedes_11
+      name: TilesParedes2_11
       rect:
         serializedVersion: 2
         x: 384
@@ -362,8 +362,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f0ec4f1ee30c4f4eaa06acfb8b2c57b
-      internalID: -1859548105
+      spriteID: 0037b735192a2e14695013789a5bd818
+      internalID: -1288794650
       vertices: []
       indices: 
       edges: []
@@ -379,18 +379,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TilesParedes_0: -1150948267
-      TilesParedes_4: 1300601878
-      TilesParedes_5: 524705695
-      TilesParedes_7: -1520601803
-      TilesParedes_6: 947483462
-      TilesParedes_9: 548077013
-      TilesParedes_2: 1314467821
-      TilesParedes_3: -1587639993
-      TilesParedes_8: -1551031724
-      TilesParedes_11: -1859548105
-      TilesParedes_1: 1123331083
-      TilesParedes_10: 983271056
+      TilesParedes2_5: -1425847888
+      TilesParedes2_8: 82602581
+      TilesParedes2_3: 676967275
+      TilesParedes2_11: -1288794650
+      TilesParedes2_7: 1084978304
+      TilesParedes2_6: -1036674764
+      TilesParedes2_2: 697116775
+      TilesParedes2_1: -233721536
+      TilesParedes2_9: -1968936993
+      TilesParedes2_10: -985614073
+      TilesParedes2_0: -1821866200
+      TilesParedes2_4: -1529076159
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
