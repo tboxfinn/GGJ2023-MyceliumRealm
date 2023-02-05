@@ -19,10 +19,10 @@ public class LevelGenerator : MonoBehaviour {
 	float chanceWalkerChangeDir = 0.5f, chanceWalkerSpawn = 0.05f;
 	float chanceWalkerDestoy = 0.05f;
 	int maxWalkers = 10;
-	public int maxEnemys = 20;
+	public int maxEnemys = 15, enemiesGenerated;
 	float percentToFill = 0.3f; //
-	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj;
-
+	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj, bossObj;
+	public bool BossCreado = false;
 	
 	void Start () {
 		Setup();
@@ -32,17 +32,22 @@ public class LevelGenerator : MonoBehaviour {
 		SpawnLevel();
 
 		//update and create nav mesh
-		
+		BossCreado = false;
 
 	}
 
 	void Update(){
 		for(int i = 0; i < maxEnemys; i++){
-			if(GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemys){
+			if(GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemys ){
 				SpawnEnemy();
+				enemiesGenerated++;
 			}
 		}
-		
+
+		if (enemiesGenerated == maxEnemys+1&& BossCreado == false){
+			SpawnBoss();
+			BossCreado = true;
+		}
 	}
 	void Setup(){
 		//find grid size
@@ -223,6 +228,8 @@ public class LevelGenerator : MonoBehaviour {
 	void SpawnEnemy()
 	{
 		Debug.Log("Spawning enemies");
+
+		
 		//function that sspawns less enemies that the limit inside the room
 		
 		//random position inside the room
@@ -233,8 +240,33 @@ public class LevelGenerator : MonoBehaviour {
 		{
 			Spawn(x, y, enemyObj[Random.Range(0,enemyObj.Length)]);
 		}
-		
+		else
+		{
+			//if the position is not a floor, try again
+			SpawnEnemy();
+		}	
 	}
+
+	void SpawnBoss()
+	{
+		Debug.Log("Spawning Boss");
+		//function that sspawns less enemies that the limit inside the room
+		
+		//random position inside the room
+		int x = Random.Range(0, roomWidth);
+		int y = Random.Range(0, roomHeight);
+		//if the position is a floor, spawn an enemy
+		if (grid[x, y] == gridSpace.floor)
+		{
+			Spawn(x, y, bossObj[Random.Range(0,bossObj.Length)]);
+		}
+		else
+		{
+			//if the position is not a floor, try again
+			SpawnBoss();
+		}	
+	}
+
 	Vector2 RandomDirection(){
 		//pick random int between 0 and 3
 		int choice = Mathf.FloorToInt(Random.value * 3.99f);
@@ -266,4 +298,6 @@ public class LevelGenerator : MonoBehaviour {
 		//spawn object
 		Instantiate(toSpawn, spawnPos, Quaternion.identity);
 	}
+	
+	
 }

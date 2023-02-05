@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class FollowEnemyBullet : MonoBehaviour
 {
-    private GameObject[] multipleEnemys;
-    public Transform closestEnemy;
-    public bool enemyContact;
 
     void Start()
     {
         
-        closestEnemy = null;
-        enemyContact = false;
     }
+   /*void Update()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
+        transform.position = mousePosition;
 
+        
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
+    }*/
+
+    public float maxMoveSpeed = 3f;
+    public float smoothTime = 0.7f;
+    Vector2 currentVelocity;
     void Update()
     {
-
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = Vector2.SmoothDamp(transform.position, mousePosition, ref currentVelocity, smoothTime, maxMoveSpeed); 
     }
 
 }

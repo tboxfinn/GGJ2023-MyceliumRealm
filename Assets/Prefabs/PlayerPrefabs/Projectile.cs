@@ -14,20 +14,28 @@ public class Projectile : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         GameObject Particla = Instantiate(ParticlePrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject, 7f);
+        Destroy(gameObject, 4f);
         Destroy(Particla, 1.6f);
     }
-    public void Init(Vector2 direction)
-    {
-        rb.velocity = direction * speed;
-    }
+    
 
-    void OnTriggerEnter2D(Collider2D other)
+    /*void OnTriggerEnter2D(Collider2D other)
     {
         other.transform.GetComponent<Enemy>()?.TakeDamage(1);
 
         if (other.gameObject.tag == "Enemy")
         {
+            Destroy(gameObject);
+        }
+    }*/
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        other.transform.GetComponent<Enemy>()?.TakeDamage(1);
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            
             Destroy(gameObject);
         }
     }

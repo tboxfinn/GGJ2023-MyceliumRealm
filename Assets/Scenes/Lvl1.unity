@@ -380,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomSizeWorldUnits: {x: 50, y: 50}
   maxEnemys: 15
+  enemiesGenerated: 0
   wallObj:
   - {fileID: 7209302844824545039, guid: 26309e0c83d7739498e5b88680a1c2de, type: 3}
   wallUpObj:
@@ -394,6 +395,9 @@ MonoBehaviour:
   - {fileID: 1682820749493489209, guid: b350d30ebbfefe84aba57a0cd2fabc3f, type: 3}
   enemyObj:
   - {fileID: 6706001576053224611, guid: 3fe92e564bbdd7241af51d2a455dd49b, type: 3}
+  bossObj:
+  - {fileID: 6706001576053224611, guid: 0c58e61db5decc64f91b4875d26f9621, type: 3}
+  BossCreado: 0
 --- !u!1 &339973651
 GameObject:
   m_ObjectHideFlags: 0
