@@ -14,12 +14,11 @@ public class LevelGenerator : MonoBehaviour {
 		public Vector2 dir;
 		public Vector2 pos;
 	}
-	List<walker> walkers;
+	[SerializeField] List<walker> walkers;
     // cosas que puedo cambiar para ver como cambia el mapa
 	float chanceWalkerChangeDir = 0.5f, chanceWalkerSpawn = 0.05f;
 	float chanceWalkerDestoy = 0.05f;
 	int maxWalkers = 10;
-	public int maxEnemys = 10, enemiesGenerated;
 	float percentToFill = 0.3f; //
 
 	public GameObject Exit;
@@ -38,21 +37,11 @@ public class LevelGenerator : MonoBehaviour {
 
 	}
 
-	void Update(){
-		for(int i = 0; i < maxEnemys; i++){
-			if(GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemys ){
-				SpawnEnemy();
-				enemiesGenerated++;
-			}
-		}
-
-		if (enemiesGenerated == maxEnemys+10&& BossCreado == false){
-			SpawnBoss();
-			BossCreado = true;
-		}
-
+	void Update()
+	{
 		
 	}
+	
 	void Setup(){
 		//find grid size
 		roomHeight = Mathf.RoundToInt(roomSizeWorldUnits.x / worldUnitsInOneGridCell);
@@ -227,28 +216,6 @@ public class LevelGenerator : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	void SpawnEnemy()
-	{
-		Debug.Log("Spawning enemies");
-
-		
-		//function that sspawns less enemies that the limit inside the room
-		
-		//random position inside the room
-		int x = Random.Range(0, roomWidth);
-		int y = Random.Range(0, roomHeight);
-		//if the position is a floor, spawn an enemy
-		if (grid[x, y] == gridSpace.floor)
-		{
-			Spawn(x, y, enemyObj[Random.Range(0,enemyObj.Length)]);
-		}
-		else
-		{
-			//if the position is not a floor, try again
-			SpawnEnemy();
-		}	
 	}
 
 	void SpawnExit(){

@@ -379,8 +379,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomSizeWorldUnits: {x: 50, y: 50}
-  maxEnemys: 15
-  enemiesGenerated: 0
   Exit: {fileID: 24074825741274888, guid: 632d85ebe05a78a4c8bc39e22f3c295e, type: 3}
   wallObj:
   - {fileID: 7209302844824545039, guid: 26309e0c83d7739498e5b88680a1c2de, type: 3}
