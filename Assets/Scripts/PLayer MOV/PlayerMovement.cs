@@ -186,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        playerRb.velocity = new Vector2(moveDirection.x * activeMoveSpeed, moveDirection.y * activeMoveSpeed);
+        playerRb.linearVelocity = new Vector2(moveDirection.x * activeMoveSpeed, moveDirection.y * activeMoveSpeed);
         //activate dust particle
         
         

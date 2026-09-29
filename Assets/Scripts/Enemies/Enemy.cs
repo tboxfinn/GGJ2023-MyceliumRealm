@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
     {
         if (target)
         {
-            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+            rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
         }
     }
 
