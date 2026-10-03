@@ -1,0 +1,863 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a2affe11ea1264d80581af98c9832f, type: 3}
+  m_Name: LevelGeneratorTileSet
+  m_EditorClassIdentifier: Assembly-CSharp::LevelGeneratorTileSet
+  sourceAtlas: {fileID: 2800000, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+  cellSize: {x: 16, y: 16}
+  offset: {x: 0, y: 0}
+  spacing: {x: 0, y: 0}
+  pixelsPerUnit: 128
+  spriteRenderSizeWorldUnits: {x: 1, y: 1}
+  slices:
+  - spriteName: WallTiles_0
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 144
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 9
+    sprite: {fileID: -355015002225083662, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_1
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 144
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 1
+    sprite: {fileID: 122382589700334822, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_2
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 144
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 3
+    sprite: {fileID: 5523321055691104164, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_3
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 144
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 10
+    sprite: {fileID: -8501390876051243236, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_4
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 8
+    sprite: {fileID: 143058494288025283, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_5
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 255
+    sprite: {fileID: -4687942061180009799, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_6
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 2
+    sprite: {fileID: -1653664669557398466, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_7
+    rect:
+      serializedVersion: 2
+      x: 80
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 13
+    sprite: {fileID: 1713419579, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_8
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 7
+    sprite: {fileID: -1562227527, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_9
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 12
+    sprite: {fileID: 876906116, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_10
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 4
+    sprite: {fileID: 1712762177, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_11
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 6
+    sprite: {fileID: 1475973384, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_12
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 14
+    sprite: {fileID: -982649104, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_13
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 64
+    sprite: {fileID: -1694879484, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_14
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 128
+    sprite: {fileID: -421794340, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_15
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 16
+    sprite: {fileID: 177218555, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_16
+    rect:
+      serializedVersion: 2
+      x: 64
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 32
+    sprite: {fileID: -1238934713, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_17
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 2
+    wallMask: 1
+    sprite: {fileID: 1990386462, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_18
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 96
+    sprite: {fileID: 20207030, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_19
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 192
+    sprite: {fileID: -1091033575, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_20
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 144
+    sprite: {fileID: 1598860447, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_21
+    rect:
+      serializedVersion: 2
+      x: 64
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 48
+    sprite: {fileID: -87141536, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_22
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 240
+    sprite: {fileID: -1476373284, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_23
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 16
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 208
+    sprite: {fileID: 1646589293, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_24
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 16
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 176
+    sprite: {fileID: -1344941323, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_25
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 16
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 112
+    sprite: {fileID: 1985756114, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_26
+    rect:
+      serializedVersion: 2
+      x: 64
+      y: 16
+      width: 16
+      height: 16
+    hasRoleAssignment: 0
+    role: 7
+    wallMask: 224
+    sprite: {fileID: -749869975, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_43
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 0
+    wallMask: 1
+    sprite: {fileID: -1022557907, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_7
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 2
+    sprite: {fileID: 1201741912, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_12
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 4
+    sprite: {fileID: 294361266, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_8
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 5
+    sprite: {fileID: 2069099362, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_13
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 6
+    sprite: {fileID: 1786429486, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_5
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 8
+    sprite: {fileID: 618464124, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_10
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 7
+    sprite: {fileID: -747823619, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_4
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 144
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 11
+    sprite: {fileID: -756754636, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_11
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 12
+    sprite: {fileID: 991325985, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_9
+    rect:
+      serializedVersion: 2
+      x: 80
+      y: 128
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 13
+    sprite: {fileID: -1391546943, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_15
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 14
+    sprite: {fileID: 83639486, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_14
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 112
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 255
+    sprite: {fileID: -1293064400, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_18
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 16
+    sprite: {fileID: -917764691, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_19
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 32
+    sprite: {fileID: -2037401600, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_27
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 48
+    sprite: {fileID: 2012034715, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_16
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 64
+    sprite: {fileID: 1785784014, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_40
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 80
+    sprite: {fileID: 139201111, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_24
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 96
+    sprite: {fileID: 506031965, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_34
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 112
+    sprite: {fileID: -471471626, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_17
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 128
+    sprite: {fileID: 1491022216, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_26
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 144
+    sprite: {fileID: 1202781762, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_41
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 160
+    sprite: {fileID: -662830504, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_33
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 176
+    sprite: {fileID: 21525008, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_25
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 192
+    sprite: {fileID: 670659895, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_35
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 224
+    sprite: {fileID: 1869681912, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_32
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 208
+    sprite: {fileID: 1365309586, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_42
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 240
+    sprite: {fileID: -1608175950, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_20
+    rect:
+      serializedVersion: 2
+      x: 80
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 20
+    sprite: {fileID: 2014128717, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_21
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 24
+    sprite: {fileID: -1491707673, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_22
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 28
+    sprite: {fileID: 1149111313, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_23
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 80
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 33
+    sprite: {fileID: 499070997, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_28
+    rect:
+      serializedVersion: 2
+      x: 80
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 40
+    sprite: {fileID: 1149259948, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_29
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 41
+    sprite: {fileID: 361610726, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_30
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 56
+    sprite: {fileID: -244812711, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_31
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 64
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 65
+    sprite: {fileID: -877777004, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_36
+    rect:
+      serializedVersion: 2
+      x: 80
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 66
+    sprite: {fileID: -467839545, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_37
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 67
+    sprite: {fileID: -1174102581, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_38
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 97
+    sprite: {fileID: 931479127, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_39
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 48
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 130
+    sprite: {fileID: -1140568800, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_44
+    rect:
+      serializedVersion: 2
+      x: 80
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 132
+    sprite: {fileID: 1973387954, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_45
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 134
+    sprite: {fileID: -1004060201, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_46
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 148
+    sprite: {fileID: -295546122, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  - spriteName: WallTiles_47
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 32
+      width: 16
+      height: 16
+    hasRoleAssignment: 1
+    role: 7
+    wallMask: 194
+    sprite: {fileID: -1009553313, guid: b2ecba99dafe40246a9aa2054d6d3634, type: 3}
+    generatedPrefab: {fileID: 0}
+  lastSliceSignature: 
+  lastSlicedAtlasGuid: 

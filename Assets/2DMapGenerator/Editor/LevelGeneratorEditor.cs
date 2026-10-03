@@ -43,11 +43,19 @@ public sealed class LevelGeneratorEditor : Editor {
 		bool previewToggleChanged = false;
 		bool componentEnabledChanged = false;
 		SerializedProperty fillModeProperty = serializedObject.FindProperty("fillMode");
+		SerializedProperty tileSetProfileProperty = serializedObject.FindProperty("tileSetProfile");
 
 		SerializedProperty property = serializedObject.GetIterator();
 		bool enterChildren = true;
 		while (property.NextVisible(enterChildren)){
 			enterChildren = false;
+			if (property.propertyPath == "wallMaskPrefabs"){
+				continue;
+			}
+			if (tileSetProfileProperty != null && tileSetProfileProperty.objectReferenceValue != null &&
+				IsDirectionalWallPrefabProperty(property.propertyPath)){
+				continue;
+			}
 			if (property.propertyPath == "m_Script"){
 				using (new EditorGUI.DisabledScope(true)){
 					EditorGUILayout.PropertyField(property, true);
@@ -76,7 +84,16 @@ public sealed class LevelGeneratorEditor : Editor {
 			bool isPreviewInput = IsPreviewInput(property.propertyPath);
 			bool isEnabledField = property.propertyPath == "m_Enabled";
 			EditorGUI.BeginChangeCheck();
-			EditorGUILayout.PropertyField(property, true);
+			if (property.propertyPath == "wallObj" && tileSetProfileProperty != null &&
+				tileSetProfileProperty.objectReferenceValue != null){
+				EditorGUILayout.PropertyField(property, new GUIContent("Wall Obj (Shared Template)"), true);
+				EditorGUILayout.HelpBox(
+					"Wall cells use this prefab as their shared template. Tile Set Profile Sprite assignments override its SpriteRenderer; Wall Topology sprites are tried by exact mask, canonical mask, then cardinal-only mask. If none is assigned, a single-cardinal wall uses its matching directional Sprite role, then Generic Wall. Missing all these assignments keeps the template's authored Sprite. The template hierarchy and collider are preserved; directional prefab arrays and legacy mask-prefab mappings are ignored while a profile is linked.",
+					MessageType.Info);
+			}
+			else{
+				EditorGUILayout.PropertyField(property, true);
+			}
 			if (EditorGUI.EndChangeCheck()){
 				previewToggleChanged |= isPreviewToggle;
 				previewInputsChanged |= isPreviewInput;
@@ -136,6 +153,18 @@ public sealed class LevelGeneratorEditor : Editor {
 		}
 	}
 
+	static bool IsDirectionalWallPrefabProperty(string propertyPath){
+		switch (propertyPath){
+			case "wallUpObj":
+			case "wallDownObj":
+			case "wallLeftObj":
+			case "wallRightObj":
+				return true;
+			default:
+				return false;
+		}
+	}
+
 	static bool IsPreviewInput(string propertyPath){
 		switch (propertyPath){
 			case "roomSizeWorldUnits":
@@ -154,6 +183,7 @@ public sealed class LevelGeneratorEditor : Editor {
 			case "cellularAutomataNeighborThreshold":
 			case "useFixedSeed":
 			case "fixedSeed":
+			case "tileSetProfile":
 			case "emptyObj":
 			case "floorObj":
 			case "wallObj":
@@ -331,8 +361,12 @@ static class LevelGeneratorPreviewLifecycle {
 	}
 
 	public static bool IsSceneInstance(LevelGenerator generator){
-		return generator != null && !EditorUtility.IsPersistent(generator) &&
-			generator.gameObject.scene.IsValid() && !generator.IsLivePreviewRootMarker &&
-			!generator.IsInLivePreviewHierarchy();
+		if (generator == null || EditorUtility.IsPersistent(generator) ||
+			generator.IsLivePreviewRootMarker || generator.IsInLivePreviewHierarchy()){
+			return false;
+		}
+
+		Scene scene = generator.gameObject.scene;
+		return scene.IsValid() && scene.isLoaded && !EditorSceneManager.IsPreviewScene(scene);
 	}
 }

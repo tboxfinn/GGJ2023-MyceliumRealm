@@ -1,51 +1,104 @@
-# Feature: LevelGenerator tileset authoring tool
+# Feature: Sprite atlas authoring and topology-aware walls
 
 ## Objective
-Ship an Editor tool with the generator asset that imports/slices a regular-grid texture atlas, lets the user visually map slices to generator tile roles, creates compatible prefab variants, and applies those variants to a selected `LevelGenerator`.
+Let the user select/drag an already sliced Unity sprite atlas into the generator EditorWindow, visually assign sprites to wall/floor cases, connect the profile directly to `LevelGenerator`, and use its Sprite assignments at runtime for topology-aware wall cells while preserving prefab structure and colliders.
 
-## Scope and decisions
-- Provide a Unity EditorWindow under `Assets/2DMapGenerator/Editor/`; the tool ships inside the generator folder.
-- User chooses a texture already imported into the Unity project, configures cell size, offset, spacing, and pixels-per-unit, then slices the atlas as a regular grid. Default cell dimensions/PPU are 128 to match current sheets, but remain editable.
-- Use the installed Unity Sprite Editor data-provider API (`SpriteDataProviderFactories`, `ISpriteEditorDataProvider`, `ISpriteNameFileIdDataProvider`, `ITextureDataProvider`); do not clone the full Sprite Editor.
-- Show the resulting sprite cells visually and let the user assign multiple variants to Floor, Empty, generic Wall, and each cardinal wall role.
-- Persist atlas settings, sprite-role assignments, and generated prefab references in a reusable `LevelGeneratorTileSet` profile. The user selects the template source `LevelGenerator` in the EditorWindow when generating variants.
-- Generate/update prefabs from the selected generator's existing role templates where possible, changing sprite assignments while preserving renderers, colliders, sorting layers, and other components. Avoid deleting assets or overwriting unrelated prefab paths.
-- Apply generated arrays to a selected `LevelGenerator` only on an explicit button click, using Unity Undo/serialization APIs. If a role has no newly assigned tiles, preserve that target's existing prefab array; fall back to the selected template source only when the target array is empty. Block Apply only when a required role would still have no valid prefab asset.
-- Keep the generation runtime/prefab pipeline unchanged. No Unity Tilemap migration, no Play Mode entry by the assistant, no commits/pushes without explicit authorization.
-- Existing native review lineage `review-039b2b61c6bef438` remains pending after a WebSocket failure; do not retry without authorization.
+## Confirmed decisions
+- The user's atlas is already configured as Sprite/Multiple. The Builder must enumerate its existing Sprite subassets instead of forcing the user to slice the same grid again. The existing grid-slice workflow may remain as an optional path, but importing existing slices is primary.
+- The wall atlas sprites replace a complete cell; they are not overlays.
+- Preserve the atlas importer and its PPU. Generated visuals should match the existing template's footprint without resizing/modifying colliders.
+- The wall-role mapping is based on which neighboring cells around a wall cell contain floor. Provide named assignments for cardinal sides, corner turns, straight joins, three-side/T junctions, and four-side cells. A mapping can have multiple visual variants. The user's 27-sprite wall atlas is the initial manual validation target.
+- Keep the seven existing `LevelGenerator` arrays, including `wallObj` (Generic Wall), as prefab templates that preserve hierarchy/components/colliders. Existing scenes without a linked profile retain their legacy behavior.
+- Primary workflow decision: link the Tile Set Profile directly to `LevelGenerator`; use assigned Sprite references during generation and do not require permanent per-sprite prefab variants. The existing bake-to-prefab path may remain optional/advanced for compatibility.
+- No Tilemap migration. The user will test manually; assistant does not enter Play Mode. No commits/pushes/publication without explicit authorization.
+- The Builder should stay usable at small, medium, and wide EditorWindow sizes: no clipped controls, meaningful wrapping/reflow, readable card widths, preview placement that adapts to available room, and good use of extra wide/tall space.
+- The Builder should receive a visual polish pass using a restrained Unity-native style: consistent hierarchy/spacing, built-in theme-aware controls, minimal color accents, and emphasis reserved for key actions.
+- User supplied a dark, minimal mockup as a visual reference (subtle surfaces/borders and a blue focus accent). User chose to keep the Builder adaptive to Unity's light/dark theme: approximate the reference in the dark Editor theme and preserve light-theme legibility; do not alter or imitate Unity's outer window chrome.
+- User wants one wall prefab for profile-linked generation: use the single `wallObj` entry as the shared hierarchy/collider template and obtain wall art from profile topology/directional/generic Sprite assignments. Keep legacy directional prefab arrays and hidden mask-prefab mappings serialized and functional when no profile is linked; do not delete old prefab assets or scene references.
 
-## Constraints and context
-- `LevelGenerator` consumes GameObject arrays (`emptyObj`, `floorObj`, `wallObj`, `wallUpObj`, `wallDownObj`, `wallLeftObj`, `wallRightObj`). All require at least one assigned prefab.
-- Existing floor and directional wall prefabs have role-specific renderer/collider/layer setup; generated variants should clone a role template rather than construct blank prefabs.
-- `Packages/packages-lock.json` includes built-in `com.unity.2d.sprite` 1.0.0; local Unity 6000.5.9f1 package docs describe Sprite Editor data-provider APIs. The tool remains under `Editor/` and no asmdef is currently present for this bundle.
-- The user selected regular-grid slicing. Exact irregular/freehand slicing is out of scope; users can continue using Unity's Sprite Editor for irregular shapes.
-- The latest fill-mode implementation is compiled, but its new modes await the user's manual test. Keep that task pending; this tool is a separate follow-on feature.
+## Current asset/code evidence
+- Unity is 6000.5.9f1; `com.unity.2d.sprite` is builtin 1.0.0. Use public Sprite Editor data-provider APIs when needed, not `InternalSpriteUtility`.
+- MCP `assets-find` confirmed `Assets/2DMapGenerator/DungeonGenPrefabs/WallTiles/WallTiles.png` (GUID `b2ecba99dafe40246a9aa2054d6d3634`). The current `.meta` still has Sprite/Multiple mode, PPU 100, and 27 16x16 Sprite subassets. The primary import path does not write importer settings.
+- Existing wall prefab templates use 128x128 sprites at 128 PPU and occupy one grid cell. Their root/child colliders and SpriteRenderer setup must remain intact. Scale the generated SpriteRenderer visual footprint without moving/resizing colliders or changing atlas PPU.
+- `LevelGenerator.CreateWalls()` accumulates all adjacent floor directions into a four-bit mask; `SpawnWall()` checks an exact mask first, then falls back to the legacy directional array for one-sided masks or `wallObj` for compound masks. With no topology mappings, old scenes use their legacy directional arrays.
+- The Builder imports Sprite subassets without importer mutation, exposes all 15 non-empty masks with labels, persists assignments, creates prefab variants by changing only the selected SpriteRenderer's sprite/draw mode/size, and applies all seven base roles plus mask mappings explicitly with Undo.
+- The import action replaces the current profile palette with the selected Texture's subassets or selected Sprite set; assignments are retained for Sprite references that remain in the imported set. Optional grid slicing remains a separate explicit action.
 
-## Tasks
+## Existing implementation tasks
 
-### ODD-0 — Confirm tool workflow
+### ODD-0 — Confirm the sprite workflow
 - **Status:** done
-- **Evidence:** User clarified the tool should support the generator asset and selected regular-grid slicing rather than irregular/manual sprite cuts.
+- **Evidence:** User confirmed already-sliced sprites, whole-cell replacement for corner/junction pieces, and matching the template visual size while preserving source PPU/colliders.
 
-### ODD-1 — Add persistent tileset profile and regular-grid slicing
+### ODD-1 — Preserve optional regular-grid slicing
 - **Status:** done
-- **Evidence:** Added `Assets/2DMapGenerator/LevelGeneratorTileSet.cs`; the EditorWindow creates profile-scoped grid slices through the Sprite Editor data-provider API, persists role/prefab references, preserves unrelated slices, and retains IDs for unchanged slices. Source-image dimensions come from `ITextureDataProvider.GetTextureActualWidthAndHeight`.
-- **Acceptance:** A profile stores source atlas, grid settings, sprite-role assignments, and output prefab references. The Editor tool creates stable grid SpriteRects through the installed Sprite Editor data-provider API and reimports the atlas safely.
+- **Evidence:** The first version already slices regular grids via public provider APIs, persists the profile, and compiles. Keep it optional; do not make it the primary import path.
 
-### ODD-2 — Build visual tile-role mapping window
+## Active revision tasks
+
+### ODD-2 — Import existing Sprite subassets and expose a drag/drop palette
 - **Status:** done
-- **Evidence:** Added `Assets/2DMapGenerator/Editor/LevelGeneratorTileSetEditorWindow.cs` with sliced-sprite thumbnails, per-slice role dropdowns, profile persistence, and explicit generation/apply actions.
-- **Acceptance:** The window previews sliced cells, allows assigning multiple variants to Floor/Empty/Wall/WallUp/WallDown/WallLeft/WallRight, validates roles, and retains mapping in the profile.
+- **Evidence:** `LoadSpritesFromTexture()` and `ImportDroppedSpriteSources()` use `AssetDatabase.LoadAllAssetsAtPath()` and filter Sprite objects; `LoadSpriteReferences()` retains role/mask/generated-prefab assignments for matching Sprite references. No importer writes occur in this path. Static audit completed.
 
-### ODD-3 — Generate compatible prefabs and apply to generator
+### ODD-3 — Add persistent topology mapping and compatible prefab variants
 - **Status:** done
-- **Evidence:** Generates from persistent role prefab templates and changes only the selected child `SpriteRenderer.sprite`. Apply is explicit, Undo-backed, includes all seven arrays, preserves existing prefab arrays for unassigned roles, and rejects non-prefab fallback references. Static review found no remaining defects in this flow.
-- **Acceptance:** Tool creates or updates tracked variants from the selected category templates while preserving their components; applying is explicit, undoable, updates assigned roles, and safely preserves existing arrays for roles without new art. No required array is left empty or null.
+- **Evidence:** The profile stores role and mask per Sprite; the UI exposes all 15 non-empty masks and multiple variants per mask. Prefab generation sets the child `SpriteRenderer` sprite, draw mode, and visual size while retaining hierarchy/transforms/colliders. Apply is explicit and Undo-backed across seven base arrays and topology masks. Static audit completed.
 
-### ODD-4 — Compile and verify the authoring flow
-- **Status:** in progress
-- **Evidence to date:** Unity AssetDatabase `ForceSynchronousImport` succeeded after the final changes; Console errors in the last five minutes: none. A read-only reviewer confirmed PPU freshness checks, source dimensions, persistent fallback prefabs, all seven roles, and template component preservation. User manual Editor validation is pending; assistant did not enter Play Mode and ran no automated tests.
-- **Acceptance:** Unity compiles with no new errors; static/Editor checks confirm slice bounds, role mapping, stable re-slicing behavior, prefab preservation, and required-array validation. Provide manual Editor/Play-mode checks to the user; assistant does not enter Play Mode.
+### ODD-4 — Classify runtime wall cells by neighbor mask
+- **Status:** done
+- **Evidence:** Runtime accumulates N/E/S/W bits, selects exact-mask variants, uses the seeded `Random` sequence for variants, falls back for missing masks, preserves legacy behavior without mappings, handles wall cleanup symmetrically, and snapshots/restores transient mask state for preview. Static audit completed.
+
+### ODD-5 — Compile and statically verify the revised workflow
+- **Status:** done
+- **Evidence:** Unity `assets-refresh` completed with `ForceSynchronousImport`; `console-get-logs` returned no Error entries for the last 10 minutes. Re-read `TryMergeWallMaskMappings()` after its repair change. It now discards all existing target entries for explicitly assigned masks before validating the preserved mappings, so an explicit profile assignment can repair duplicate/invalid entries for that mask. No Play Mode or automated tests were run.
+- **Manual validation pending:** The user should load the atlas, confirm all 27 sprites appear, map roles/topologies, generate/apply prefabs, inspect corners/T-junctions and visual size, confirm collider bounds and atlas metadata remain unchanged, and verify Undo. User also still needs to manually verify the three fill modes.
+
+### ODD-6 — Fix palette clipping and clarify setup fields
+- **Status:** done
+- **Evidence:** `DrawSliceGrid()` chooses responsive card widths and computes an explicit scroll viewport height from the measured palette header to the bottom of the EditorWindow; the header measurement is cached during Repaint, and the scroll region keeps a 150 px minimum. `DrawSliceCard()` sizes controls from the card width. Help text defines Template Source, Apply To, and the Generate-then-Apply workflow. Unity `ForceSynchronousImport` refresh completed; Console returned no Error entries in the last 5 minutes. Visual confirmation in the user's window remains pending.
+
+### ODD-7 — Connect the Tile Set Profile directly to LevelGenerator
+- **Status:** done (implementation; user visual/runtime validation pending)
+- **Decision:** User selected direct profile consumption at runtime. Keep the existing prefab arrays as templates for hierarchy, SpriteRenderer setup, and collider geometry; the linked profile supplies role/mask Sprite variants at spawn. Do not require generated prefab variants or array-baking Apply for the primary path. Preserve the old prefab-only behavior for scenes without a profile, and retain the prior bake flow as optional/advanced.
+- **Evidence:** `LevelGenerator` stores a profile reference; runtime uses profile Sprite variants for Empty/Floor/base wall roles and exact wall-neighbor masks through the seeded random stream. It overrides only spawned SpriteRenderer components and sizes visuals to the template footprint. Exact direct masks use `wallObj`; compound GenericWall profile fallbacks use the generic template; explicit existing mask-prefab mappings remain honored. The Builder has an Undo-backed direct-link action for regular scene instances, refreshes linked previews when profiles change, and presents baking as an optional advanced workflow. Static verification covered all four code files.
+- **Compatibility:** With no linked profile or no applicable assigned Sprite, existing arrays/mask-prefab behavior remains. Prefab arrays remain required as structure/collider templates; profile connection does not rewrite them.
+- **Object-picker note:** With Live Preview enabled, Unity's `Scene LevelGenerator` object picker can list both the actual `LevelGenerator` and the temporary `__LevelGenerator Live Preview` marker. Select the actual `LevelGenerator`; the scene-instance guard rejects the preview object, which is transient and not saved.
+
+### ODD-8 — Compile and verify direct profile integration
+- **Status:** done
+- **Evidence:** Unity `assets-refresh` with `ForceSynchronousImport` completed successfully; `console-get-logs` returned no Error entries in the last 10 minutes. Static review found no remaining blocker. No automated tests or Play Mode were run.
+- **Manual validation pending:** The user must confirm the palette viewport no longer leaves a blank area and test direct profile linking, Sprite-role/mask assignments, live preview, generated corners/T-junctions, visual size, collider bounds, atlas metadata, Undo, and all fill modes in `GeneratorTest`. A mapped legacy `wallMaskPrefabs` entry intentionally takes precedence over a GenericWall fallback when that exact profile mask is absent.
+
+### ODD-9 — Make the Builder responsive across window sizes
+- **Status:** completed; user visual confirmation remains pending
+- Adapted the profile/object rows, filter/Clear, tabs, legend, card actions, and preview placement to available width. Preview stacks until board and panel both fit; card widths are bounded with more columns at larger sizes; palette height uses measured header and remaining viewport. Existing scroll, foldout, alias, import, assignment, link and preview behavior remains. Unity recompile completed with `failed:false`, `errors:[]`, `compilationFailed:false`; current Console error count is zero. No tests, Play Mode, or asset/profile/scene changes.
+
+### ODD-10 — Verify responsive Builder layout
+- **Status:** pending
+- User manually checks narrow, medium, and wide window sizes, scroll behavior, readability, and absence of clipping after visual polish. No automated tests or Play Mode.
+
+### ODD-11 — Choose visual design direction
+- **Status:** completed
+- User selected a polished Unity-native style: consistent section hierarchy and spacing, built-in theme-aware controls, restrained accents, and emphasis on key actions.
+
+### ODD-12 — Apply Unity-native visual polish
+- **Status:** done
+- Established a clearer section/card hierarchy, quieter wrapped guidance, and consistent secondary actions. Both adaptive topology tab bars use `EditorStyles.toolbarButton` so Unity provides theme-aware selected/focus treatment. Existing help-box cards and spacing approximate the reference's subtle surfaces. Responsive layout, foldouts, topology aliases, and workflows are unchanged; no custom assets/fonts or window chrome were added.
+
+### ODD-13 — Verify the polished responsive Builder
+- **Status:** done (manual visual checks pending)
+- Independent source audit confirmed responsive thresholds, preview stacking, card bounds, measured palette viewport, scrolls, foldout defaults, canonical aliases/exact overrides, and import/link/assignment actions remain. `git diff --check` passed. Unity recompile completed; `compilationFailed:false`, `compiling:false`, `consoleErrors:0`, `consoleWarnings:4`. The same console status included aggregate buffered counts of 1 error and 1999 warnings, without returned entries. No tests or Play Mode.
+- Native review preflight `gentle_review inspect` was blocked (`package-local-binary-missing`, `lineage_created:false`, `mutation_performed:false`); no review lineage was started and no package install/recovery command was run.
+
+### ODD-14 — Use one wall prefab with profile-driven Sprites
+- **Status:** done
+- Linked-profile `SpawnWall` now always uses the `wallObj` template; selects Sprite by raw → canonical → cardinal topology, then directional-role/GenericWall fallback, otherwise retains the template Sprite. Directional prefab arrays and hidden `wallMaskPrefabs` are not used in this mode. Validation requires `wallObj` but permits empty dormant arrays/maps; unrelated base arrays remain validated. Custom Inspector explains the shared template and hides directional fields without clearing references. Profile-free legacy path remains unchanged. The writer changed only the two authorized source files; no scene/asset edits were intentionally made for this task.
+
+### ODD-15 — Verify single-template wall mode
+- **Status:** done (manual validation pending)
+- Independent source audit confirmed profile-linked spawning uses only `wallObj`, Sprite fallback order is exact → canonical → cardinal → directional role → GenericWall → template Sprite, and legacy profile-free selection/validation is preserved. Inspector retains `wallObj`, explains shared-template use, hides directional arrays only while linked, and restores them when unlinked. `git diff --check` passed. Unity recompile completed; `compilationFailed:false`, `compiling:false`, `consoleErrors:0`, `consoleWarnings:5`; aggregate console counts included 1 error/1999 warnings with no entries returned. No tests or Play Mode.
+- Native review preflight `gentle_review inspect` is blocked (`package-local-binary-missing`, no lineage/mutation); no install/recovery command was run. The pre/post-compile worktree includes modified `GeneratorTest.unity`, `LevelGeneratorTileSet.cs`, and untracked profile/WallTiles assets. The `GeneratorTest` diff links a profile and changes `percentToFill`; without an initial baseline, attribution cannot be certified. These paths were preserved and must not be reported as clean or unrelated.
+- User manually verifies profile mask appearance/fallback, renderer size/collider preservation, and legacy `Lvl1` behavior.
 
 ## Next step
-The tool is ready for the user to manually test importing/slicing an atlas, assigning roles, generating prefabs, applying arrays, and Undo/Redo. Ask for feedback on grid alignment/offset/spacing, slice previews and role assignment, preservation of the template's visuals/colliders/layers, all seven arrays (especially Generic Wall), and whether Apply/Undo behaves as expected. No Play Mode entry or commits were performed.
+User manually validates that linked-profile wall patterns all use the single `wallObj` template with correct profile Sprites, that visual size/colliders are unchanged, and that `Lvl1` retains legacy directional prefab behavior. Old directional references remain serialized but are hidden and unused while the profile is linked. Preserve scenes/assets/importer settings; no tests, Play Mode, commits, or pushes.

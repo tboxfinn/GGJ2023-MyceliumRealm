@@ -7,7 +7,39 @@ using UnityEngine.AI;
 using UnityEditor;
 #endif
 
+[System.Serializable]
+public sealed class LevelGeneratorWallMaskPrefabMapping {
+	[Range(1, 255)] public int floorNeighborMask;
+	public GameObject[] prefabs;
+}
+
 public class LevelGenerator : MonoBehaviour {
+	public const int WallFloorNorth = 1;
+	public const int WallFloorEast = 2;
+	public const int WallFloorSouth = 4;
+	public const int WallFloorWest = 8;
+	public const int WallFloorNorthEast = 16;
+	public const int WallFloorSouthEast = 32;
+	public const int WallFloorSouthWest = 64;
+	public const int WallFloorNorthWest = 128;
+
+	public static int GetCanonicalWallMask(int mask){
+		int canonicalMask = mask & 0xFF;
+		if ((canonicalMask & (WallFloorNorth | WallFloorEast)) != 0){
+			canonicalMask &= ~WallFloorNorthEast;
+		}
+		if ((canonicalMask & (WallFloorEast | WallFloorSouth)) != 0){
+			canonicalMask &= ~WallFloorSouthEast;
+		}
+		if ((canonicalMask & (WallFloorSouth | WallFloorWest)) != 0){
+			canonicalMask &= ~WallFloorSouthWest;
+		}
+		if ((canonicalMask & (WallFloorWest | WallFloorNorth)) != 0){
+			canonicalMask &= ~WallFloorNorthWest;
+		}
+		return canonicalMask;
+	}
+
 	const int MaxGridDimension = 1024;
 	const int MaxGridCells = 1000000;
 	const int MaxWalkerCount = 100;
@@ -25,6 +57,9 @@ public class LevelGenerator : MonoBehaviour {
 	enum gridSpace {empty, floor, wall, wallUp, wallDown, wallRight, wallLeft};
 	enum FillMode {RandomWalk, RoomsAndCorridors, CellularAutomata};
 	gridSpace[,] grid;
+	[System.NonSerialized] byte[,] wallFloorNeighborMasks;
+	[SerializeField, HideInInspector] List<LevelGeneratorWallMaskPrefabMapping> wallMaskPrefabs = new List<LevelGeneratorWallMaskPrefabMapping>();
+	[SerializeField] LevelGeneratorTileSet tileSetProfile;
 	int roomHeight, roomWidth;
 	public Vector2 roomSizeWorldUnits = new Vector2(50,50); // cambia el tamaño del mapa
 	[SerializeField, Min(0.0001f)] float worldUnitsInOneGridCell = 1f;
@@ -72,6 +107,7 @@ public class LevelGenerator : MonoBehaviour {
 
 	public GameObject Exit;
 	public GameObject[] wallObj, wallUpObj, wallDownObj, wallRightObj, wallLeftObj, floorObj, enemyObj, bossObj, emptyObj;
+	public LevelGeneratorTileSet TileSetProfile { get { return tileSetProfile; } }
 	public bool BossCreado = false;
 	
 	void Start () {
@@ -105,6 +141,8 @@ public class LevelGenerator : MonoBehaviour {
 			CreateFloors();
 			CreateWalls();
 			RemoveSingleWalls();
+			CreateDiagonalOnlyWalls();
+			RecomputeWallFloorNeighborMasks();
 			SpawnLevel(spawnRoot);
 			BossCreado = false;
 		}
@@ -134,6 +172,7 @@ public class LevelGenerator : MonoBehaviour {
 	public void RefreshLivePreview(){
 		Random.State previousRandomState = Random.state;
 		gridSpace[,] previousGrid = grid;
+		byte[,] previousWallFloorNeighborMasks = wallFloorNeighborMasks;
 		List<walker> previousWalkers = walkers;
 		int previousRoomHeight = roomHeight;
 		int previousRoomWidth = roomWidth;
@@ -160,6 +199,7 @@ public class LevelGenerator : MonoBehaviour {
 		finally{
 			try{
 				grid = previousGrid;
+				wallFloorNeighborMasks = previousWallFloorNeighborMasks;
 				walkers = previousWalkers;
 				roomHeight = previousRoomHeight;
 				roomWidth = previousRoomWidth;
@@ -652,34 +692,41 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	void CreateWalls(){
-		//loop though every grid space
-		for (int x = 1; x < roomWidth-1; x++){
-			for (int y = 1; y < roomHeight-1; y++){
-				//if theres a floor, check the spaces around it
-				if (grid[x,y] == gridSpace.floor){
-					//if any surrounding spaces are empty, place a wall
-					if (grid[x,y+1] == gridSpace.empty){
-						grid[x,y+1] = gridSpace.wallUp;
-					}
-					if (grid[x,y-1] == gridSpace.empty){
-						grid[x,y-1] = gridSpace.wallDown;
-					}
-					if (grid[x+1,y] == gridSpace.empty){
-						grid[x+1,y] = gridSpace.wallRight;
-					}
-					if (grid[x-1,y] == gridSpace.empty){
-						grid[x-1,y] = gridSpace.wallLeft;
-					}
+		wallFloorNeighborMasks = new byte[roomWidth, roomHeight];
+		for (int x = 1; x < roomWidth - 1; x++){
+			for (int y = 1; y < roomHeight - 1; y++){
+				if (grid[x, y] != gridSpace.floor){
+					continue;
 				}
+
+				AddWallNeighbor(x, y + 1, gridSpace.wallUp, WallFloorSouth);
+				AddWallNeighbor(x, y - 1, gridSpace.wallDown, WallFloorNorth);
+				AddWallNeighbor(x + 1, y, gridSpace.wallRight, WallFloorWest);
+				AddWallNeighbor(x - 1, y, gridSpace.wallLeft, WallFloorEast);
 			}
 		}
 	}
+
+	void AddWallNeighbor(int wallX, int wallY, gridSpace legacyDirection, int floorDirectionMask){
+		if (grid[wallX, wallY] == gridSpace.empty){
+			grid[wallX, wallY] = legacyDirection;
+		}
+		if (IsWallSpace(grid[wallX, wallY])){
+			wallFloorNeighborMasks[wallX, wallY] |= (byte)floorDirectionMask;
+		}
+	}
+
+	static bool IsWallSpace(gridSpace space){
+		return space == gridSpace.wall || space == gridSpace.wallUp || space == gridSpace.wallDown ||
+			space == gridSpace.wallRight || space == gridSpace.wallLeft;
+	}
+
 	void RemoveSingleWalls(){
 		//loop though every grid space
 		for (int x = 1; x < roomWidth-1; x++){
 			for (int y = 1; y < roomHeight-1; y++){
 				//if theres a wall, check the spaces around it
-				if (grid[x,y] == gridSpace.wall || grid[x,y] == gridSpace.wallUp || grid[x,y] == gridSpace.wallDown){
+				if (IsWallSpace(grid[x, y])){
 					//assume all space around wall are floors
 					bool allFloors = true;
 					//check each side to see if they are all floors
@@ -701,40 +748,280 @@ public class LevelGenerator : MonoBehaviour {
 					}
 					if (allFloors){
 						grid[x,y] = gridSpace.floor;
+						if (wallFloorNeighborMasks != null){
+							wallFloorNeighborMasks[x, y] = 0;
+						}
 					}
 				}
 			}
 		}
 	}
+	void CreateDiagonalOnlyWalls(){
+		if (grid == null){
+			return;
+		}
+
+		for (int x = 0; x < roomWidth; x++){
+			for (int y = 0; y < roomHeight; y++){
+				if (grid[x, y] != gridSpace.empty){
+					continue;
+				}
+
+				bool hasCardinalFloorNeighbor = IsFloorCell(x, y + 1) || IsFloorCell(x + 1, y) ||
+					IsFloorCell(x, y - 1) || IsFloorCell(x - 1, y);
+				if (hasCardinalFloorNeighbor){
+					continue;
+				}
+
+				bool hasDiagonalFloorNeighbor = IsFloorCell(x + 1, y + 1) || IsFloorCell(x + 1, y - 1) ||
+					IsFloorCell(x - 1, y - 1) || IsFloorCell(x - 1, y + 1);
+				if (hasDiagonalFloorNeighbor){
+					grid[x, y] = gridSpace.wall;
+				}
+			}
+		}
+	}
+
+	void RecomputeWallFloorNeighborMasks(){
+		if (grid == null){
+			wallFloorNeighborMasks = null;
+			return;
+		}
+
+		wallFloorNeighborMasks = new byte[roomWidth, roomHeight];
+		for (int x = 0; x < roomWidth; x++){
+			for (int y = 0; y < roomHeight; y++){
+				if (!IsWallSpace(grid[x, y])){
+					continue;
+				}
+
+				int mask = 0;
+				if (IsFloorCell(x, y + 1)) mask |= WallFloorNorth;
+				if (IsFloorCell(x + 1, y)) mask |= WallFloorEast;
+				if (IsFloorCell(x, y - 1)) mask |= WallFloorSouth;
+				if (IsFloorCell(x - 1, y)) mask |= WallFloorWest;
+				if (IsFloorCell(x + 1, y + 1)) mask |= WallFloorNorthEast;
+				if (IsFloorCell(x + 1, y - 1)) mask |= WallFloorSouthEast;
+				if (IsFloorCell(x - 1, y - 1)) mask |= WallFloorSouthWest;
+				if (IsFloorCell(x - 1, y + 1)) mask |= WallFloorNorthWest;
+				wallFloorNeighborMasks[x, y] = (byte)mask;
+			}
+		}
+	}
+
+	bool IsFloorCell(int x, int y){
+		return x >= 0 && x < roomWidth && y >= 0 && y < roomHeight && grid[x, y] == gridSpace.floor;
+	}
+
 	void SpawnLevel(Transform spawnRoot){
 		for (int x = 0; x < roomWidth; x++){
 			for (int y = 0; y < roomHeight; y++){
 				switch(grid[x,y]){
 					case gridSpace.empty:
-						Spawn(x,y,emptyObj[Random.Range(0,emptyObj.Length)], spawnRoot);
+						Spawn(x,y,emptyObj[Random.Range(0,emptyObj.Length)], spawnRoot,
+							ChooseProfileSprite(LevelGeneratorTileRole.Empty, 0));
 						break;
 					case gridSpace.floor:
-						Spawn(x,y,floorObj[Random.Range(0,floorObj.Length)], spawnRoot);
+						Spawn(x,y,floorObj[Random.Range(0,floorObj.Length)], spawnRoot,
+							ChooseProfileSprite(LevelGeneratorTileRole.Floor, 0));
 						break;
 					case gridSpace.wall:
-						
-						Spawn(x,y,wallObj[Random.Range(0,wallObj.Length)], spawnRoot);
-						break;
 					case gridSpace.wallUp:
-						Spawn(x,y,wallUpObj[Random.Range(0,wallUpObj.Length)], spawnRoot);
-						break;
 					case gridSpace.wallDown:
-						Spawn(x,y,wallDownObj[Random.Range(0,wallDownObj.Length)], spawnRoot);
-						break;
 					case gridSpace.wallLeft:
-						Spawn(x,y,wallLeftObj[Random.Range(0,wallLeftObj.Length)], spawnRoot);
-						break;
 					case gridSpace.wallRight:
-						Spawn(x,y,wallRightObj[Random.Range(0,wallRightObj.Length)], spawnRoot);
+						SpawnWall(x, y, grid[x, y], spawnRoot);
 						break;
 				}
 			}
 		}
+	}
+
+	void SpawnWall(int x, int y, gridSpace legacyDirection, Transform spawnRoot){
+		int mask = wallFloorNeighborMasks == null ? 0 : wallFloorNeighborMasks[x, y];
+		if (tileSetProfile != null){
+			SpawnProfileWall(x, y, mask, spawnRoot);
+			return;
+		}
+
+		int canonicalMask = GetCanonicalWallMask(mask);
+		int cardinalMask = mask & 0x0F;
+		Sprite spriteOverride = null;
+		GameObject[] prefabs = null;
+
+		if (HasProfileSprite(LevelGeneratorTileRole.WallTopology, mask)){
+			prefabs = wallObj;
+			spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.WallTopology, mask);
+		}
+		else{
+			prefabs = GetWallMaskPrefabs(mask);
+			if (prefabs == null && canonicalMask != mask){
+				if (HasProfileSprite(LevelGeneratorTileRole.WallTopology, canonicalMask)){
+					prefabs = wallObj;
+					spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.WallTopology, canonicalMask);
+				}
+				else{
+					prefabs = GetWallMaskPrefabs(canonicalMask);
+				}
+			}
+			if (prefabs == null && cardinalMask != mask && cardinalMask != canonicalMask){
+				if (HasProfileSprite(LevelGeneratorTileRole.WallTopology, cardinalMask)){
+					prefabs = wallObj;
+					spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.WallTopology, cardinalMask);
+				}
+				else{
+					prefabs = GetWallMaskPrefabs(cardinalMask);
+				}
+			}
+		}
+
+		if (prefabs == null){
+			int cardinalNeighborCount = CountSetBits(cardinalMask);
+			if (cardinalNeighborCount == 1){
+				prefabs = GetLegacyWallPrefabs(legacyDirection);
+				spriteOverride = ChooseProfileSprite(GetDirectionalWallRole(legacyDirection), 0);
+			}
+			else if (wallMaskPrefabs == null || wallMaskPrefabs.Count == 0){
+				// Keep the pre-profile multi-neighbor prefab choice while avoiding
+				// directional fallbacks for masks made only of diagonal neighbors.
+				if (cardinalNeighborCount > 1 && !HasProfileSprite(LevelGeneratorTileRole.GenericWall, 0)){
+					prefabs = GetLegacyWallPrefabs(legacyDirection);
+				}
+				else{
+					prefabs = wallObj;
+				}
+				spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.GenericWall, 0);
+			}
+			else{
+				prefabs = wallObj;
+				spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.GenericWall, 0);
+			}
+		}
+
+		Spawn(x, y, prefabs[Random.Range(0, prefabs.Length)], spawnRoot, spriteOverride);
+	}
+
+	void SpawnProfileWall(int x, int y, int mask, Transform spawnRoot){
+		int canonicalMask = GetCanonicalWallMask(mask);
+		int cardinalMask = mask & 0x0F;
+		Sprite spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.WallTopology, mask);
+		if (spriteOverride == null && canonicalMask != mask){
+			spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.WallTopology, canonicalMask);
+		}
+		if (spriteOverride == null && cardinalMask != mask && cardinalMask != canonicalMask){
+			spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.WallTopology, cardinalMask);
+		}
+
+		if (spriteOverride == null && CountSetBits(cardinalMask) == 1){
+			spriteOverride = ChooseProfileSprite(GetDirectionalWallRoleForMask(cardinalMask), 0);
+		}
+		if (spriteOverride == null){
+			spriteOverride = ChooseProfileSprite(LevelGeneratorTileRole.GenericWall, 0);
+		}
+
+		if (wallObj == null || wallObj.Length == 0){
+			return;
+		}
+		GameObject template = wallObj[Random.Range(0, wallObj.Length)];
+		if (template != null){
+			Spawn(x, y, template, spawnRoot, spriteOverride);
+		}
+	}
+
+	static LevelGeneratorTileRole GetDirectionalWallRoleForMask(int cardinalMask){
+		switch (cardinalMask){
+			case WallFloorNorth: return LevelGeneratorTileRole.WallDown;
+			case WallFloorEast: return LevelGeneratorTileRole.WallLeft;
+			case WallFloorSouth: return LevelGeneratorTileRole.WallUp;
+			case WallFloorWest: return LevelGeneratorTileRole.WallRight;
+			default: return LevelGeneratorTileRole.GenericWall;
+		}
+	}
+
+	static LevelGeneratorTileRole GetDirectionalWallRole(gridSpace direction){
+		switch (direction){
+			case gridSpace.wallUp: return LevelGeneratorTileRole.WallUp;
+			case gridSpace.wallDown: return LevelGeneratorTileRole.WallDown;
+			case gridSpace.wallLeft: return LevelGeneratorTileRole.WallLeft;
+			case gridSpace.wallRight: return LevelGeneratorTileRole.WallRight;
+			default: return LevelGeneratorTileRole.GenericWall;
+		}
+	}
+
+	bool HasProfileSprite(LevelGeneratorTileRole role, int wallMask){
+		if (tileSetProfile == null || tileSetProfile.slices == null){
+			return false;
+		}
+		for (int i = 0; i < tileSetProfile.slices.Count; i++){
+			LevelGeneratorTileSetSlice slice = tileSetProfile.slices[i];
+			if (slice != null && slice.hasRoleAssignment && slice.role == role && slice.sprite != null &&
+				(role != LevelGeneratorTileRole.WallTopology || slice.wallMask == wallMask)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	Sprite ChooseProfileSprite(LevelGeneratorTileRole role, int wallMask){
+		if (tileSetProfile == null || tileSetProfile.slices == null){
+			return null;
+		}
+		int variantCount = 0;
+		for (int i = 0; i < tileSetProfile.slices.Count; i++){
+			LevelGeneratorTileSetSlice slice = tileSetProfile.slices[i];
+			if (slice != null && slice.hasRoleAssignment && slice.role == role && slice.sprite != null &&
+				(role != LevelGeneratorTileRole.WallTopology || slice.wallMask == wallMask)){
+				variantCount++;
+			}
+		}
+		if (variantCount == 0){
+			return null;
+		}
+
+		int selectedVariant = Random.Range(0, variantCount);
+		for (int i = 0; i < tileSetProfile.slices.Count; i++){
+			LevelGeneratorTileSetSlice slice = tileSetProfile.slices[i];
+			if (slice == null || !slice.hasRoleAssignment || slice.role != role || slice.sprite == null ||
+				(role == LevelGeneratorTileRole.WallTopology && slice.wallMask != wallMask)){
+				continue;
+			}
+			if (selectedVariant-- == 0){
+				return slice.sprite;
+			}
+		}
+		return null;
+	}
+
+	GameObject[] GetWallMaskPrefabs(int mask){
+		if (wallMaskPrefabs == null){
+			return null;
+		}
+		for (int i = 0; i < wallMaskPrefabs.Count; i++){
+			LevelGeneratorWallMaskPrefabMapping mapping = wallMaskPrefabs[i];
+			if (mapping != null && mapping.floorNeighborMask == mask){
+				return mapping.prefabs;
+			}
+		}
+		return null;
+	}
+
+	GameObject[] GetLegacyWallPrefabs(gridSpace direction){
+		switch (direction){
+			case gridSpace.wallUp: return wallUpObj;
+			case gridSpace.wallDown: return wallDownObj;
+			case gridSpace.wallLeft: return wallLeftObj;
+			case gridSpace.wallRight: return wallRightObj;
+			default: return wallObj;
+		}
+	}
+
+	static int CountSetBits(int value){
+		int count = 0;
+		while (value != 0){
+			count += value & 1;
+			value >>= 1;
+		}
+		return count;
 	}
 
 	void SpawnExit(){
@@ -815,7 +1102,7 @@ public class LevelGenerator : MonoBehaviour {
 		}
 		return count;
 	}
-	void Spawn(float x, float y, GameObject toSpawn, Transform spawnRoot){
+	void Spawn(float x, float y, GameObject toSpawn, Transform spawnRoot, Sprite spriteOverride = null){
 		//find the position to spawn
 		Vector3 localPosition = new Vector3(
 			(x - (roomWidth - 1) / 2.0f) * worldUnitsInOneGridCell,
@@ -823,14 +1110,78 @@ public class LevelGenerator : MonoBehaviour {
 			0f);
 		Vector3 spawnPos = transform.TransformPoint(localPosition);
 		//spawn object
-#if UNITY_EDITOR
 		GameObject spawnedObject = Instantiate(toSpawn, spawnPos, Quaternion.identity, spawnRoot);
+		if (spriteOverride != null){
+			Vector2 spriteRenderSize = tileSetProfile == null ? Vector2.zero : tileSetProfile.spriteRenderSizeWorldUnits;
+			ApplySpriteOverride(spawnedObject, spriteOverride, spriteRenderSize);
+		}
+#if UNITY_EDITOR
 		if (spawnRoot == previewRoot){
 			SetPreviewHierarchyFlags(spawnedObject, false);
 		}
-#else
-		Instantiate(toSpawn, spawnPos, Quaternion.identity, spawnRoot);
 #endif
+	}
+
+	static void ApplySpriteOverride(GameObject instance, Sprite sprite, Vector2 worldSize){
+		SpriteRenderer renderer = FindSpriteRenderer(instance);
+		if (renderer == null || sprite == null){
+			return;
+		}
+
+		Vector2 fallbackFootprint = GetRendererFootprint(renderer);
+		renderer.sprite = sprite;
+		renderer.drawMode = SpriteDrawMode.Sliced;
+		Vector2 localSize;
+		renderer.size = TryGetLocalSpriteSize(worldSize, renderer.transform, out localSize)
+			? localSize
+			: fallbackFootprint;
+	}
+
+	static bool TryGetLocalSpriteSize(Vector2 worldSize, Transform rendererTransform, out Vector2 localSize){
+		localSize = Vector2.zero;
+		if (!IsFinitePositive(worldSize.x) || !IsFinitePositive(worldSize.y) || rendererTransform == null){
+			return false;
+		}
+
+		Vector3 worldScale = rendererTransform.lossyScale;
+		float scaleX = Mathf.Abs(worldScale.x);
+		float scaleY = Mathf.Abs(worldScale.y);
+		if (!IsFinitePositive(scaleX) || !IsFinitePositive(scaleY)){
+			return false;
+		}
+
+		localSize = new Vector2(worldSize.x / scaleX, worldSize.y / scaleY);
+		return IsFinitePositive(localSize.x) && IsFinitePositive(localSize.y);
+	}
+
+	static bool IsFinitePositive(float value){
+		return !float.IsNaN(value) && !float.IsInfinity(value) && value > 0f;
+	}
+
+	static SpriteRenderer FindSpriteRenderer(GameObject root){
+		if (root == null){
+			return null;
+		}
+		SpriteRenderer[] renderers = root.GetComponentsInChildren<SpriteRenderer>(true);
+		for (int i = 0; i < renderers.Length; i++){
+			if (renderers[i] != null && string.Equals(renderers[i].gameObject.name, "Square", System.StringComparison.OrdinalIgnoreCase)){
+				return renderers[i];
+			}
+		}
+		return renderers.Length == 0 ? null : renderers[0];
+	}
+
+	static Vector2 GetRendererFootprint(SpriteRenderer renderer){
+		if (renderer.drawMode != SpriteDrawMode.Simple && renderer.size.x > 0f && renderer.size.y > 0f){
+			return renderer.size;
+		}
+		if (renderer.sprite != null){
+			Vector2 spriteSize = renderer.sprite.bounds.size;
+			if (spriteSize.x > 0f && spriteSize.y > 0f){
+				return spriteSize;
+			}
+		}
+		return Vector2.one;
 	}
 
 	void EnsureGeneratedRoot(){
@@ -949,10 +1300,50 @@ public class LevelGenerator : MonoBehaviour {
 		valid = ValidatePrefabArray("emptyObj", emptyObj) && valid;
 		valid = ValidatePrefabArray("floorObj", floorObj) && valid;
 		valid = ValidatePrefabArray("wallObj", wallObj) && valid;
-		valid = ValidatePrefabArray("wallUpObj", wallUpObj) && valid;
-		valid = ValidatePrefabArray("wallDownObj", wallDownObj) && valid;
-		valid = ValidatePrefabArray("wallLeftObj", wallLeftObj) && valid;
-		valid = ValidatePrefabArray("wallRightObj", wallRightObj) && valid;
+		if (tileSetProfile == null){
+			valid = ValidatePrefabArray("wallUpObj", wallUpObj) && valid;
+			valid = ValidatePrefabArray("wallDownObj", wallDownObj) && valid;
+			valid = ValidatePrefabArray("wallLeftObj", wallLeftObj) && valid;
+			valid = ValidatePrefabArray("wallRightObj", wallRightObj) && valid;
+			valid = ValidateWallMaskMappings() && valid;
+		}
+		return valid;
+	}
+
+	bool ValidateWallMaskMappings(){
+		if (wallMaskPrefabs == null || wallMaskPrefabs.Count == 0){
+			return true;
+		}
+
+		bool valid = true;
+		HashSet<int> configuredMasks = new HashSet<int>();
+		for (int i = 0; i < wallMaskPrefabs.Count; i++){
+			LevelGeneratorWallMaskPrefabMapping mapping = wallMaskPrefabs[i];
+			if (mapping == null){
+				Debug.LogError("LevelGenerator: wallMaskPrefabs contains an unassigned mapping at index " + i + ".", this);
+				valid = false;
+				continue;
+			}
+			if (mapping.floorNeighborMask < 1 || mapping.floorNeighborMask > 255){
+				Debug.LogError("LevelGenerator: wallMaskPrefabs entry " + i + " must use a floor-neighbor mask from 1 to 255.", this);
+				valid = false;
+			}
+			if (!configuredMasks.Add(mapping.floorNeighborMask)){
+				Debug.LogError("LevelGenerator: wallMaskPrefabs contains duplicate floor-neighbor mask " + mapping.floorNeighborMask + ".", this);
+				valid = false;
+			}
+			if (mapping.prefabs == null || mapping.prefabs.Length == 0){
+				Debug.LogError("LevelGenerator: wallMaskPrefabs entry " + i + " must contain at least one prefab.", this);
+				valid = false;
+				continue;
+			}
+			for (int prefabIndex = 0; prefabIndex < mapping.prefabs.Length; prefabIndex++){
+				if (mapping.prefabs[prefabIndex] == null){
+					Debug.LogError("LevelGenerator: wallMaskPrefabs entry " + i + " contains an unassigned prefab at index " + prefabIndex + ".", this);
+					valid = false;
+				}
+			}
+		}
 		return valid;
 	}
 

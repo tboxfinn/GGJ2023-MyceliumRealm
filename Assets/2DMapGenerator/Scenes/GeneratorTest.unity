@@ -148,6 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c3e61eb71f25c498d6fb6d35141173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelGenerator
+  wallMaskPrefabs: []
+  tileSetProfile: {fileID: 11400000, guid: 7acea6bc689307644b42804e8a2bae0c, type: 2}
   roomSizeWorldUnits: {x: 20, y: 20}
   worldUnitsInOneGridCell: 1
   fillMode: 0
@@ -155,7 +157,7 @@ MonoBehaviour:
   chanceWalkerSpawn: 0.05
   chanceWalkerDestoy: 0.05
   maxWalkers: 10
-  percentToFill: 0.3
+  percentToFill: 0.099
   roomCount: 5
   minRoomDimension: 3
   maxRoomDimension: 7
